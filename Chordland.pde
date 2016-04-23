@@ -6,7 +6,7 @@
 //import oscp5;
 int x,y, weight;
 void setup(){
-size(800,800);
+size(700,700);
 
 //load font for score keeping
 //Note chord [] = new Note();
