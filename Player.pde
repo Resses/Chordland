@@ -1,6 +1,6 @@
 /**
   * Player.pde    
-  * Christopher Menedes, Kwan Halloway, Renee Esses
+  * Christopher Menedes, Kwan Holloway, Renee Esses
   * Game Design
   * Professor Kletenik
   */

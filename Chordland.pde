@@ -1,10 +1,12 @@
 /*
   Chordland main sketch
-  Authors: Christopher Menedes, Kwan Halloway, Renee Esses
+  Authors: Christopher Menedes, Kwan Holloway, Renee Esses
 */
 //import Sound;
 //import oscp5;
+PFont title;
 int x,y, weight;
+int gameState;
 Player player;
 
 void setup(){
@@ -12,10 +14,28 @@ void setup(){
   //load font for score keeping
   //Note chord [] = new Note();
   player = new Player();
+  gameState = 0;
+  title = createFont("font",75,true);
 }
 void draw(){
-  background(#ffffff);
-  player.draw();
+  switch(gameState) {
+    case 0: 
+    //title screen info
+    textAlign(CENTER);
+    textFont(title);
+    fill(255);
+    text("CHORDLAND",width/2,height/2 - 20);
+    textFont(title, 20);
+    fill(0);
+    text("Use 'A' and 'D' or the left and right arrow keys to move player.", width/2, height/2 + 20);
+    text(" Aim guitar with mouse, and click to shoot at notes!", width/2, height/2 +40);
+    break;
+    case 1: 
+    //gameplay
+    background(#ffffff);
+    player.draw();
+    break;
+  }
 //  strokeWeight(weight);
 //  line(x,y,x,y);
 }
@@ -55,6 +75,8 @@ void keyPressed(){
       player.moveLeft=true;
     }
   }
+  if(key == 'z')
+    gameState = 1;
 }//end key pressed
    
 void keyReleased(){
