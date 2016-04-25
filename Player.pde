@@ -32,8 +32,9 @@ class Player {
       else if(moveRight && pos.x + size +velx < width){
         pos.x += velx;      
       }
+      
       //find angle from mouse to bottom middle of screen
-     angle = atan2( mouseY - height, mouseX - width/2 );
+     angle = atan2( mouseY  - pos.y, mouseX - pos.x );
      
      translate( pos.x+25, pos.y+50 );
      rotate( angle );
