@@ -7,6 +7,8 @@
 PFont title;
 int x,y, weight;
 int gameState;
+int correct, incorrect;
+String roundStats;
 Player player;
 
 void setup(){
@@ -15,26 +17,41 @@ void setup(){
   //Note chord [] = new Note();
   player = new Player();
   gameState = 0;
+  correct = 0;
+  incorrect = 0;
+  roundStats = "You got " + correct + " correct and " + incorrect + " incorrect.";
   title = createFont("font",75,true);
 }
 void draw(){
   switch(gameState) {
+    case -1:
+      background(#000000);
+      fill(240);
+      textAlign(CENTER);
+      textSize(32);
+      text("Game Over", width/2, height/2);
+      textSize(24);
+      text(roundStats, width/2, height/2 + 50);
+      break;
+      
     case 0: 
     //title screen info
-    textAlign(CENTER);
-    textFont(title);
-    fill(255);
-    text("CHORDLAND",width/2,height/2 - 20);
-    textFont(title, 16);
-    fill(0);
-    text("Use 'A' and 'D' or the left and right arrow keys to move player.", width/2, height/2 + 20);
-    text(" Aim guitar with mouse, and click to shoot at notes!", width/2, height/2 +40);
-    break;
+      textAlign(CENTER);
+      textFont(title);
+      fill(255);
+      text("CHORDLAND",width/2,height/2 - 20);
+      textFont(title, 16);
+      fill(0);
+      text("Use 'A' and 'D' or the left and right arrow keys to move player.", width/2, height/2 + 20);
+      text(" Aim guitar with mouse, and click to shoot at notes!", width/2, height/2 +40);
+      text(" Press 'Q' to quit the game.", width/2, height/2 +60);
+      break;
+    
     case 1: 
-    //gameplay
-    background(#ffffff);
-    player.draw();
-    break;
+      //gameplay
+      background(#ffffff);
+      player.draw();
+      break;
   }
 //  strokeWeight(weight);
 //  line(x,y,x,y);
@@ -81,8 +98,12 @@ void keyPressed(){
   if(key == 'a' || key == 'A'){
     player.moveLeft = true; 
   }
-  if(key == 'z' || key == 'Z')
+  if(key == 'z' || key == 'Z'){
     gameState = 1;
+  }
+  if(key == 'q' || key == 'Q'){
+    gameState = -1;
+  }
 }//end key pressed
    
 void keyReleased(){
