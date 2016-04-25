@@ -8,6 +8,7 @@ PFont title;
 int x,y, weight;
 int gameState;
 Player player;
+Note []chord; 
 
 void setup(){
   size(500,500);
@@ -16,6 +17,11 @@ void setup(){
   player = new Player();
   gameState = 0;
   title = createFont("font",75,true);
+  chord = new Note[3];
+  for(int i = 0; i < chord.length; i++){
+    chord[i] = new Note('c', new PVector((int)random(0,width),(int)random(0,height)));
+  }
+  
 }
 void draw(){
   switch(gameState) {
@@ -33,7 +39,11 @@ void draw(){
     case 1: 
     //gameplay
     background(#ffffff);
+    for(int i = 0; i < chord.length; i++){
+      chord[i].draw();
+    }
     player.draw();
+
     break;
   }
 //  strokeWeight(weight);

@@ -15,8 +15,11 @@ class Note {
   char note;
   float pitch;
   
-  
-  Note(){}//constructor
+  //constructor
+  Note(char note, PVector pos){
+    this.note = note;
+    this.pos = pos;
+  }
  /* PVector getPos();//returns position of note
   PVector getDiameter();//returns diameter of note
   char getNote();
@@ -26,7 +29,11 @@ class Note {
   void doublePoints();
   */
   void draw(){
-  
-  
+    noFill();
+    ellipseMode(CENTER);
+    ellipse(pos.x, pos.y, 40,30);
+    textAlign(CENTER,CENTER);
+    textSize(18);
+    text(note, pos.x, pos.y);
   }
-  }
+}
