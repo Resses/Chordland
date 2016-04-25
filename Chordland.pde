@@ -10,7 +10,7 @@ int gameState;
 Player player;
 
 void setup(){
-  size(700,700);
+  size(500,500);
   //load font for score keeping
   //Note chord [] = new Note();
   player = new Player();
@@ -25,7 +25,7 @@ void draw(){
     textFont(title);
     fill(255);
     text("CHORDLAND",width/2,height/2 - 20);
-    textFont(title, 20);
+    textFont(title, 16);
     fill(0);
     text("Use 'A' and 'D' or the left and right arrow keys to move player.", width/2, height/2 + 20);
     text(" Aim guitar with mouse, and click to shoot at notes!", width/2, height/2 +40);
@@ -69,24 +69,36 @@ void mouseDragged(){
 void keyPressed(){
   if (key == CODED){
     if (keyCode == RIGHT){
-      player.moveRight=true;
+      player.moveRight = true;
     }         
     if (keyCode == LEFT){
-      player.moveLeft=true;
+      player.moveLeft = true;
     }
   }
-  if(key == 'z')
+  if (key == 'd' || key == 'D'){
+    player.moveRight = true;
+  }
+  if(key == 'a' || key == 'A'){
+    player.moveLeft = true; 
+  }
+  if(key == 'z' || key == 'Z')
     gameState = 1;
 }//end key pressed
    
 void keyReleased(){
   if (key == CODED){
     if (keyCode == RIGHT){
-      player.moveRight=false;
+      player.moveRight = false;
     } 
     if (keyCode == LEFT){
-      player.moveLeft=false;
+      player.moveLeft = false;
     }
+  }
+  if (key == 'd' || key == 'D'){
+    player.moveRight = false;
+  }
+  if(key == 'a' || key == 'A'){
+    player.moveLeft = false; 
   }
 }//end key released 
    
