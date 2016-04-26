@@ -13,7 +13,8 @@ float angle = 0.0f;
 class Player {
     PVector pos;
     int size = 50;
-    int velx = 5;
+    int speed = 5;
+    int vel = 5;
     boolean moveLeft = false;
     boolean moveRight = false;
 
@@ -24,14 +25,25 @@ class Player {
     
     //draws the player and updates its position based on value of moveLeft and moveRight
     void draw() {
+      //set velocity
+      if(moveLeft && !moveRight){
+        vel = -speed;
+      }
+      else if(moveRight && !moveLeft){
+        vel = speed;      
+      }
+      else{
+        vel = 0;
+      }
+      //move by velocity
+      pos.x += vel;
+      //clamp to screen boundary
+      pos.x = max(pos.x, 0);
+      pos.x = min(pos.x, width - size);
+      
+      //draw
       fill(#ff0000);
       rect( pos.x, pos.y, size, size );
-      if(moveLeft && pos.x-velx > 0){
-        pos.x -= velx;
-      }
-      else if(moveRight && pos.x + size +velx < width){
-        pos.x += velx;      
-      }
       
       //find angle from mouse to bottom middle of screen
      angle = atan2( mouseY  - pos.y, mouseX - pos.x );
