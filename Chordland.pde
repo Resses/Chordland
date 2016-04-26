@@ -10,6 +10,7 @@ int gameState;
 int correct, incorrect;
 String roundStats;
 Player player;
+ArrayList<Bullet> bullets;
 Note []chord; 
 
 void setup(){
@@ -26,6 +27,8 @@ void setup(){
   for(int i = 0; i < chord.length; i++){
     chord[i] = new Note('c', new PVector((int)random(0,width),(int)random(0,height)));
   }
+  
+  bullets = new ArrayList <Bullet> ();
   
 }
 void draw(){
@@ -101,19 +104,30 @@ void keyPressed(){
       player.moveLeft = true;
     }
   }
+  // move right
   if (key == 'd' || key == 'D'){
     player.moveRight = true;
   }
+  // move left
   if(key == 'a' || key == 'A'){
     player.moveLeft = true; 
   }
+  //Start Game
   if(key == 'z' || key == 'Z'){
     gameState = 1;
   }
+  // Quit Game
   if(key == 'q' || key == 'Q'){
     gameState = -1;
   }
-}//end key pressed
+  // shoot bullet
+  if(key == ' ' || key == ' '){
+    Bullet temp;
+    bullets.add(new Bullet());
+    temp = bullets.get(0);
+    temp.shoot();
+  }
+}//end key pressed 
    
 void keyReleased(){
   if (key == CODED){
