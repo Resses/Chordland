@@ -1,36 +1,17 @@
-//this is for chords in key of c major. Temporary...
-
-final int C = 1;
-final int D = 2;
-final int E = 3;
-final int F = 4;
-final int G = 5;
-final int A = 6;
-final int B = 7;
-
-char []notes = {'C','D','E','F','G','A','B'};
-
-final int MAJOR = 0;
-final int MINOR = 1;
-
+//This class right now is made up of three strings to correspond to the notes in the chord, and an integer type
+//it has a method to print the chord
 class Chord{
-  char key = 'c';
   int type;
-  char root;
-  char third;
-  char fifth;
-  //char seventh;
+  String root;
+  String third;
+  String fifth;
+  //String seventh;
    
-  Chord(int root){
-    if(root == 1 || root == 4 || root == 5){
-      type = MAJOR;
-    }
-    else type = MINOR;
-    root --; //subtracting one to correspond with elements in the array
-    this.root = notes[root];
-    third = notes[(root+2) % 7];
-    fifth = notes[(root+4) % 7];
-    printChord();
+  Chord(String root, String third, String fifth, int type){
+   this.root = root;
+   this.third = third;
+   this.fifth = fifth;
+   this.type = type;
   }
   
   String getTypeString(int t){

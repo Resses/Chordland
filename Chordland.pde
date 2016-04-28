@@ -2,23 +2,34 @@
   Chordland main sketch
   Authors: Christopher Menedes, Kwan Holloway, Renee Esses
 */
+
 //import Sound;
 //import oscp5;
+
 PFont title;
 int x,y, weight;
 int gameState;
 int correct, incorrect;
 String roundStats;
+
+//game states
+final int GAMEOVER = -1;
+final int STARTSCREEN = 0;
+final int PLAY = 1;
+final int CHOOSECHORDS = 2;
+
 Player player;
 ArrayList<Bullet> bullets;
+Key k;
 Note []chord; 
+Button b1, b2, b3;
 
 void setup(){
   size(500,500);
   //load font for score keeping
   //Note chord [] = new Note();
   player = new Player();
-  gameState = 0;
+  gameState = STARTSCREEN;
   correct = 0;
   incorrect = 0;
   roundStats = "You got " + correct + " correct and " + incorrect + " incorrect.";
@@ -29,12 +40,12 @@ void setup(){
   }
   
   bullets = new ArrayList <Bullet> ();
-  Chord c = new Chord(3);
+//  Chord c = new Chord(3);
   
 }
 void draw(){
   switch(gameState) {
-    case -1:
+    case GAMEOVER:
       background(#000000);
       fill(240);
       textAlign(CENTER);
@@ -44,7 +55,7 @@ void draw(){
       text(roundStats, width/2, height/2 + 50);
       break;
       
-    case 0: 
+    case STARTSCREEN: 
     //title screen info
       textAlign(CENTER);
       textFont(title);
@@ -56,10 +67,9 @@ void draw(){
       text(" Aim guitar with mouse, and click to shoot at notes!", width/2, height/2 +40);
       text(" Press 'Q' to quit the game.", width/2, height/2 +60);
       text(" Press 'Z' to begin!", width/2, height/2 +80);
-
       break;
     
-    case 1: 
+    case PLAY: 
       //gameplay
       background(#ffffff);
       for(int i = 0; i < chord.length; i++){
@@ -67,31 +77,15 @@ void draw(){
       }
       player.draw();
       break;
-  }
-//  strokeWeight(weight);
-//  line(x,y,x,y);
-}
+      
+   case CHOOSECHORDS:
+     background(#999999);
+     loadButtons();
+     break;
+  
+  }//end switch
+}//end draw
 
-//void keyPressed(){
- /* if(key == 'a')
-    //move left
-  if(key == 'd')
-    //move right
-  if(key == 'x')
-    //close
-  if(key == 'spacebar')
-    //pause*/
-//   switch(key) {
-//     case '1':
-//       weight = 1;
-//     case '2':
-//       weight = 5;
-//     case '3':
-//       weight = 10;
-//     case '4':
-//       weight = 15;
-//     }
-//}
 
 void mouseDragged(){
   x = mouseX;
@@ -117,11 +111,11 @@ void keyPressed(){
   }
   //Start Game
   if(key == 'z' || key == 'Z'){
-    gameState = 1;
+    gameState = CHOOSECHORDS;
   }
   // Quit Game
   if(key == 'q' || key == 'Q'){
-    gameState = -1;
+    gameState = GAMEOVER;
   }
   // shoot bullet
   if(key == ' ' || key == ' '){
@@ -148,4 +142,31 @@ void keyReleased(){
     player.moveLeft = false; 
   }
 }//end key released 
+  
+void mousePressed() {
+  if(gameState == CHOOSECHORDS){
+    if (b1.rectOver) {
+      k = new Key(C, MAJOR);
+      gameState = PLAY;
+    }
+    else if(b2.rectOver){
+      k = new Key(D, MAJOR); 
+      gameState = PLAY;
    
+    }
+    else if(b3.rectOver){
+      k = new Key(G, MAJOR);
+      gameState = PLAY;
+    }
+  }
+}   
+void loadButtons(){
+      textAlign(CENTER);
+      text("Which chords do you want to master now? ", width/2, 50);
+      b1 = new Button(10, 100, width-20, 50, "Key of C Major/ A minor: C, d, e, F, G, a, b");
+      b1.draw();
+      b2 = new Button(10, 170, width-20, 50, "Key of D Major/ B minor: D, e, f#, G, A, b, c#");
+      b2.draw();      
+      b3 = new Button(10, 240, width-20, 50, "Key of G Major/ e minor: G, a, b, C, D, e, f#");
+      b3.draw();
+}
