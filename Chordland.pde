@@ -29,6 +29,7 @@ void setup(){
   }
   
   bullets = new ArrayList <Bullet> ();
+  Chord c = new Chord(3);
   
 }
 void draw(){
@@ -54,6 +55,8 @@ void draw(){
       text("Use 'A' and 'D' or the left and right arrow keys to move player.", width/2, height/2 + 20);
       text(" Aim guitar with mouse, and click to shoot at notes!", width/2, height/2 +40);
       text(" Press 'Q' to quit the game.", width/2, height/2 +60);
+      text(" Press 'Z' to begin!", width/2, height/2 +80);
+
       break;
     
     case 1: 
