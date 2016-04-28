@@ -22,7 +22,7 @@ class Chord{
   //char seventh;
    
   Chord(int root){
-    if(root == 1 || root == 3 || root == 5){
+    if(root == 1 || root == 4 || root == 5){
       type = MAJOR;
     }
     else type = MINOR;
