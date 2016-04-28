@@ -34,11 +34,6 @@ void setup(){
   incorrect = 0;
   roundStats = "You got " + correct + " correct and " + incorrect + " incorrect.";
   title = createFont("font",75,true);
-  chord = new Note[3];
-  for(int i = 0; i < chord.length; i++){
-    chord[i] = new Note('c', new PVector((int)random(0,width),(int)random(0,height)));
-  }
-  
   bullets = new ArrayList <Bullet> ();
 //  Chord c = new Chord(3);
   
@@ -147,15 +142,33 @@ void mousePressed() {
   if(gameState == CHOOSECHORDS){
     if (b1.rectOver) {
       k = new Key(C, MAJOR);
+      Chord c = k.getChord((int)random(0,7));
+      c.printChord();
+      chord = new Note[3];
+      chord[0] = new Note(c.root, new PVector((int)random(0,width),(int)random(0,height)));
+      chord[1] = new Note(c.third, new PVector((int)random(0,width),(int)random(0,height)));
+      chord[2] = new Note(c.fifth, new PVector((int)random(0,width),(int)random(0,height)));
       gameState = PLAY;
     }
     else if(b2.rectOver){
       k = new Key(D, MAJOR); 
+      Chord c = k.getChord((int)random(0,7));
+      c.printChord();
+      chord = new Note[3];
+      chord[0] = new Note(c.root, new PVector((int)random(0,width),(int)random(0,height)));
+      chord[1] = new Note(c.third, new PVector((int)random(0,width),(int)random(0,height)));
+      chord[2] = new Note(c.fifth, new PVector((int)random(0,width),(int)random(0,height)));
       gameState = PLAY;
    
     }
     else if(b3.rectOver){
       k = new Key(G, MAJOR);
+      Chord c = k.getChord((int)random(0,7));
+      c.printChord();
+      chord = new Note[3];
+      chord[0] = new Note(c.root, new PVector((int)random(0,width),(int)random(0,height)));
+      chord[1] = new Note(c.third, new PVector((int)random(0,width),(int)random(0,height)));
+      chord[2] = new Note(c.fifth, new PVector((int)random(0,width),(int)random(0,height)));
       gameState = PLAY;
     }
   }

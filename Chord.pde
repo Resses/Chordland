@@ -25,6 +25,6 @@ class Chord{
   }
   
   void printChord(){
-    print(root + " " + getTypeString(type) + " : " + root + " " + third + " "  + fifth);
+    println(root + " " + getTypeString(type) + " : " + root + " " + third + " "  + fifth);
   }
 }

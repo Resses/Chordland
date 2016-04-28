@@ -12,11 +12,11 @@ class Note {
   PVector pos;
   PVector vel;
   int d = 100;
-  char note;
+  String note;
   float pitch;
   
   //constructor
-  Note(char note, PVector pos){
+  Note(String note, PVector pos){
     this.note = note;
     this.pos = pos;
   }
