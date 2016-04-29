@@ -7,6 +7,12 @@ class Chord{
   String fifth;
   //String seventh;
    
+   Chord(){
+    this.root = "C";
+    this.third = "E";
+    this.fifth = "G";
+    this.type = MAJOR;
+   }
   Chord(String root, String third, String fifth, int type){
    this.root = root;
    this.third = third;
@@ -24,7 +30,15 @@ class Chord{
     }
   }
   
-  void printChord(){
-    println(root + " " + getTypeString(type) + " : " + root + " " + third + " "  + fifth);
+  String printChord(){
+    //println(root + " " + getTypeString(type) + " : " + root + " " + third + " "  + fifth);
+    return((root + " " + getTypeString(type) + " : " + root + " " + third + " "  + fifth));
+  }
+  
+  void draw(){
+   //String chordDisplay = printChord();
+   textSize(20);
+   text(printChord(), 75, 10);
+
   }
 }
