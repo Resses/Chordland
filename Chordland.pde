@@ -69,7 +69,10 @@ void draw(){
       background(#ffffff);
       for(int i = 0; i < chord.length; i++){
         chord[i].draw();
+        chord[i].updatePos();
+        chord[i].collide();
       }
+      //checkNoteCollide(chord);
       player.draw();
       break;
       
@@ -173,6 +176,17 @@ void mousePressed() {
     }
   }
 }   
+
+void checkNoteCollide(Note [] chrd){
+  
+  //check collision between all notes
+  for(int i = 0; i < chrd.length; i++){
+    for(int j = 0; j < chrd.length; j++){
+      chrd[i].noteCollide(chrd[j]);
+    }
+  }
+}
+
 void loadButtons(){
       textAlign(CENTER);
       text("Which chords do you want to master now? ", width/2, 50);
