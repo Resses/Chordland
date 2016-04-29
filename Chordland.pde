@@ -23,7 +23,7 @@ ArrayList<Bullet> bullets;
 Key k;
 Note []chord; 
 Button b1, b2, b3;
-
+Chord c;
 void setup(){
   size(500,500);
   //load font for score keeping
@@ -35,7 +35,8 @@ void setup(){
   roundStats = "You got " + correct + " correct and " + incorrect + " incorrect.";
   title = createFont("font",75,true);
   bullets = new ArrayList <Bullet> ();
-//  Chord c = new Chord(3);
+  //c = new Chord();//global chord variable, default constructor
+  c = new Chord("C","E","G",MAJOR);
   
 }
 void draw(){
@@ -67,17 +68,21 @@ void draw(){
     case PLAY: 
       //gameplay
       background(#ffffff);
+      
       for(int i = 0; i < chord.length; i++){
         chord[i].draw();
         chord[i].updatePos();
         chord[i].collide();
       }
       //checkNoteCollide(chord);
+      c.draw();//lets us display the chord on the screen
       player.draw();
+      
       break;
       
    case CHOOSECHORDS:
      background(#999999);
+     
      loadButtons();
      break;
   
@@ -145,8 +150,9 @@ void mousePressed() {
   if(gameState == CHOOSECHORDS){
     if (b1.rectOver) {
       k = new Key(C, MAJOR);
-      Chord c = k.getChord((int)random(0,7));
-      c.printChord();
+       c = k.getChord((int)random(1,8));
+      //c.printChord();
+      //c.draw();
       chord = new Note[3];
       chord[0] = new Note(c.root, new PVector((int)random(0,width),(int)random(0,height)));
       chord[1] = new Note(c.third, new PVector((int)random(0,width),(int)random(0,height)));
@@ -155,8 +161,9 @@ void mousePressed() {
     }
     else if(b2.rectOver){
       k = new Key(D, MAJOR); 
-      Chord c = k.getChord((int)random(0,7));
-      c.printChord();
+      c = k.getChord((int)random(1,8));
+      //c.printChord();
+      //c.draw();
       chord = new Note[3];
       chord[0] = new Note(c.root, new PVector((int)random(0,width),(int)random(0,height)));
       chord[1] = new Note(c.third, new PVector((int)random(0,width),(int)random(0,height)));
@@ -166,8 +173,9 @@ void mousePressed() {
     }
     else if(b3.rectOver){
       k = new Key(G, MAJOR);
-      Chord c = k.getChord((int)random(0,7));
-      c.printChord();
+      c = k.getChord((int)random(1,8));
+     // c.printChord();
+       //c.draw();
       chord = new Note[3];
       chord[0] = new Note(c.root, new PVector((int)random(0,width),(int)random(0,height)));
       chord[1] = new Note(c.third, new PVector((int)random(0,width),(int)random(0,height)));
