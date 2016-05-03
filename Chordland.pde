@@ -3,9 +3,21 @@
   Authors: Christopher Menedes, Kwan Holloway, Renee Esses
 */
 
-//import Sound;
-//import oscp5;
 
+/*  MAX STUFF FOR SOUND 
+
+// load the P5 libraries:
+import oscP5.*;
+import netP5.*;
+
+// create the objects we need for oscp5:
+OscP5 oscP5;
+NetAddress myRemoteLocation;
+
+// we want to send
+      the type of powerup(reverb, delay, modulation)
+      pitch
+*/
 PFont title;
 int x,y, weight;
 int gameState;
@@ -37,7 +49,6 @@ void setup(){
   bullets = new ArrayList <Bullet> ();
   //c = new Chord();//global chord variable, default constructor
   c = new Chord("C","E","G",MAJOR);
-  
 }
 void draw(){
   switch(gameState) {
@@ -75,6 +86,7 @@ void draw(){
         chord[i].collide();
       }
       //checkNoteCollide(chord);
+      
       c.draw();//lets us display the chord on the screen
       player.draw();
       
@@ -121,12 +133,12 @@ void keyPressed(){
     gameState = GAMEOVER;
   }
   // shoot bullet
-  if(key == ' ' || key == ' '){
+  /*if(key == ' ' || key == ' '){
     Bullet temp;
     bullets.add(new Bullet());
     temp = bullets.get(0);
     temp.shoot();
-  }
+  } */
 }//end key pressed 
    
 void keyReleased(){
@@ -154,9 +166,9 @@ void mousePressed() {
       //c.printChord();
       //c.draw();
       chord = new Note[3];
-      chord[0] = new Note(c.root, new PVector((int)random(0,width),(int)random(0,height)));
-      chord[1] = new Note(c.third, new PVector((int)random(0,width),(int)random(0,height)));
-      chord[2] = new Note(c.fifth, new PVector((int)random(0,width),(int)random(0,height)));
+      chord[0] = new Note(c.root, new PVector((int)random(1,width),(int)random(1,height)));
+      chord[1] = new Note(c.third, new PVector((int)random(1,width),(int)random(1,height)));
+      chord[2] = new Note(c.fifth, new PVector((int)random(1,width),(int)random(1,height)));
       gameState = PLAY;
     }
     else if(b2.rectOver){
@@ -165,9 +177,9 @@ void mousePressed() {
       //c.printChord();
       //c.draw();
       chord = new Note[3];
-      chord[0] = new Note(c.root, new PVector((int)random(0,width),(int)random(0,height)));
-      chord[1] = new Note(c.third, new PVector((int)random(0,width),(int)random(0,height)));
-      chord[2] = new Note(c.fifth, new PVector((int)random(0,width),(int)random(0,height)));
+      chord[0] = new Note(c.root, new PVector((int)random(1,width),(int)random(1,height)));
+      chord[1] = new Note(c.third, new PVector((int)random(1,width),(int)random(1,height)));
+      chord[2] = new Note(c.fifth, new PVector((int)random(1,width),(int)random(1,height)));
       gameState = PLAY;
    
     }
@@ -183,6 +195,15 @@ void mousePressed() {
       gameState = PLAY;
     }
   }
+  if(gameState == PLAY){
+    //shoot = true;
+    Bullet temp;
+    bullets.add(new Bullet());
+    temp = bullets.get(0);
+    temp.shoot();
+    temp.update();
+  }
+    
 }   
 
 void checkNoteCollide(Note [] chrd){
