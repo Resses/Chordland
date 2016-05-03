@@ -4,7 +4,7 @@
 */
 
 
-/*  MAX STUFF FOR SOUND 
+/*  MAX STUFF FOR SOUND  */
 
 // load the P5 libraries:
 import oscP5.*;
@@ -15,9 +15,9 @@ OscP5 oscP5;
 NetAddress myRemoteLocation;
 
 // we want to send
-      the type of powerup(reverb, delay, modulation)
-      pitch
-*/
+     // the type of powerup(reverb, delay, modulation)
+     // pitch
+
 PFont title;
 int x,y, weight;
 int gameState;
@@ -39,6 +39,8 @@ Chord c;
 void setup(){
   size(500,500);
   //load font for score keeping
+  oscP5 = new OscP5(this,12000);//start oscP5
+  myRemoteLocation = new NetAddress("127.0.0.1",12000);
   //Note chord [] = new Note();
   player = new Player();
   gameState = STARTSCREEN;
@@ -80,15 +82,18 @@ void draw(){
       //gameplay
       background(#ffffff);
       
+      checkNoteCollide(chord);
       for(int i = 0; i < chord.length; i++){
-        chord[i].draw();
-        //chord[i].updatePos();
         chord[i].collide();
+        chord[i].updatePos();
+        chord[i].draw();
+        ;
+        
       }
 
       c.draw();//lets us display the chord on the screen
       player.draw();
-      checkNoteCollide(chord);
+      
       break;
       
    case CHOOSECHORDS:
@@ -209,7 +214,7 @@ void checkNoteCollide(Note [] chrd){
   
   //check collision between all notes
   for(int i = 0; i < chrd.length; i++){
-    for(int j = 0; j < chrd.length; j++){
+    for(int j = i+1; j < chrd.length; j++){
       if(!(chrd[i].isEqual(chrd[j]))){
         chrd[i].noteCollide(chrd[j]);
       }
