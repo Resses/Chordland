@@ -49,11 +49,14 @@ class Note {
     //Tests to see if the notes collide
     if(dist(pos.x-rad,pos.y-rad,scnd.pos.x-rad,scnd.pos.y-rad) < (rad*2)){
       println("collided");
-      
-      xdirection *= -1;
+      vel.x = -vel.x;
+      vel.y = -vel.y;
+      scnd.vel.x = -scnd.vel.x;
+      scnd.vel.y = -scnd.vel.y;
+      /*xdirection *= -1;
       ydirection *= -1;
       scnd.xdirection *= -1;
-      scnd.ydirection *= -1;
+      scnd.ydirection *= -1;*/
     }
   }
   
