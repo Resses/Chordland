@@ -13,7 +13,7 @@ int correct, incorrect;
 String roundStats;
 
 //game states
-final int GAMEOVER = -1;
+final  int GAMEOVER = -1;
 final int STARTSCREEN = 0;
 final int PLAY = 1;
 final int CHOOSECHORDS = 2;
@@ -74,10 +74,9 @@ void draw(){
         chord[i].updatePos();
         chord[i].collide();
       }
-      //checkNoteCollide(chord);
       c.draw();//lets us display the chord on the screen
       player.draw();
-      
+      checkNoteCollide(chord);
       break;
       
    case CHOOSECHORDS:
@@ -190,7 +189,9 @@ void checkNoteCollide(Note [] chrd){
   //check collision between all notes
   for(int i = 0; i < chrd.length; i++){
     for(int j = 0; j < chrd.length; j++){
-      chrd[i].noteCollide(chrd[j]);
+      if(!(chrd[i].isEqual(chrd[j]))){
+        chrd[i].noteCollide(chrd[j]);
+      }
     }
   }
 }

@@ -14,6 +14,7 @@ class Note {
   int d = 100;
   String note;
   float pitch;
+  int max_x = 500, min_x = 0, max_y= 500, min_y = 0;
   int rad = 35; // radius
   int xdirection = 1;  // Left or Right
   int ydirection = 1;  // Top to Bottom
@@ -21,8 +22,8 @@ class Note {
   //constructor
   Note(String note, PVector pos){
     this.note = note;
-    this.pos = pos;
-    this.vel = new PVector(2,3);
+    this.pos = getRandomLoc();
+    this.vel = new PVector(1,1);
   }
     
   void updatePos(){
@@ -45,7 +46,6 @@ class Note {
    }
   
   void noteCollide(Note scnd){
-    
     //Tests to see if the notes collide
     if(dist(pos.x-rad,pos.y-rad,scnd.pos.x-rad,scnd.pos.y-rad) < (rad*2)){
       xdirection *= -1;
@@ -55,6 +55,10 @@ class Note {
     }
   }
   
+  boolean isEqual(Note scnd){
+    //return if they have the same position or not
+    return (pos.x == scnd.pos.x && pos.y == scnd.pos.y) ? true : false;
+  }
   
  /* PVector getPos();//returns position of note
   PVector getDiameter();//returns diameter of note
@@ -73,5 +77,37 @@ class Note {
     textSize(18);
     text(note, pos.x, pos.y);
   }
+
+/**Returns a new location that is unique 
+*/
+PVector getNewLoc(PVector [] arr, int arrSize){
+  PVector temp = getRandomLoc();
+  //while it's not unique, try a new loc
+  while(isLocUsed(temp,arr,arrSize)){
+    temp = getRandomLoc();
+  }
+  //otheriwse return the unique location
+  return temp;
+}
+
+// Checks to see if a location exists in the given collection
+boolean isLocUsed(PVector randLoc, PVector [] tempArr, int tempSize){
+  //check for randLoc
+  for(int i = 0; i < tempSize; i++){
+    if(tempArr[i] == randLoc){
+      //retun true if location is used
+      return true;
+    }
+  }
+  //if location is unique
+  return false;
+}
+
+PVector getRandomLoc() {
+  return( new PVector(
+  ((int)random(min_x,(max_x+1-rad))/rad)*rad,
+  ((int)random(min_y,(max_y+1-rad))/rad)*rad));
+} // end of getRandomLoc()
+
 
 }
