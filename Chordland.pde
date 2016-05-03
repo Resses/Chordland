@@ -25,7 +25,7 @@ int correct, incorrect;
 String roundStats;
 
 //game states
-final int GAMEOVER = -1;
+final  int GAMEOVER = -1;
 final int STARTSCREEN = 0;
 final int PLAY = 1;
 final int CHOOSECHORDS = 2;
@@ -82,14 +82,13 @@ void draw(){
       
       for(int i = 0; i < chord.length; i++){
         chord[i].draw();
-        chord[i].updatePos();
+        //chord[i].updatePos();
         chord[i].collide();
       }
-      //checkNoteCollide(chord);
-      
+
       c.draw();//lets us display the chord on the screen
       player.draw();
-      
+      checkNoteCollide(chord);
       break;
       
    case CHOOSECHORDS:
@@ -166,9 +165,9 @@ void mousePressed() {
       //c.printChord();
       //c.draw();
       chord = new Note[3];
-      chord[0] = new Note(c.root, new PVector((int)random(1,width),(int)random(1,height)));
-      chord[1] = new Note(c.third, new PVector((int)random(1,width),(int)random(1,height)));
-      chord[2] = new Note(c.fifth, new PVector((int)random(1,width),(int)random(1,height)));
+      chord[0] = new Note(c.root);
+      chord[1] = new Note(c.third);
+      chord[2] = new Note(c.fifth);
       gameState = PLAY;
     }
     else if(b2.rectOver){
@@ -177,9 +176,9 @@ void mousePressed() {
       //c.printChord();
       //c.draw();
       chord = new Note[3];
-      chord[0] = new Note(c.root, new PVector((int)random(1,width),(int)random(1,height)));
-      chord[1] = new Note(c.third, new PVector((int)random(1,width),(int)random(1,height)));
-      chord[2] = new Note(c.fifth, new PVector((int)random(1,width),(int)random(1,height)));
+      chord[0] = new Note(c.root);
+      chord[1] = new Note(c.third);
+      chord[2] = new Note(c.fifth);
       gameState = PLAY;
    
     }
@@ -189,9 +188,9 @@ void mousePressed() {
      // c.printChord();
        //c.draw();
       chord = new Note[3];
-      chord[0] = new Note(c.root, new PVector((int)random(0,width),(int)random(0,height)));
-      chord[1] = new Note(c.third, new PVector((int)random(0,width),(int)random(0,height)));
-      chord[2] = new Note(c.fifth, new PVector((int)random(0,width),(int)random(0,height)));
+      chord[0] = new Note(c.root);
+      chord[1] = new Note(c.third);
+      chord[2] = new Note(c.fifth);
       gameState = PLAY;
     }
   }
@@ -211,7 +210,9 @@ void checkNoteCollide(Note [] chrd){
   //check collision between all notes
   for(int i = 0; i < chrd.length; i++){
     for(int j = 0; j < chrd.length; j++){
-      chrd[i].noteCollide(chrd[j]);
+      if(!(chrd[i].isEqual(chrd[j]))){
+        chrd[i].noteCollide(chrd[j]);
+      }
     }
   }
 }
