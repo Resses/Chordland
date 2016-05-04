@@ -11,25 +11,28 @@ class Note {
     
   PVector pos;
   PVector vel; //speed 
-  int d = 100;
+  //int d = 100;
   String note;
   float pitch;
   int max_x = 500, min_x = 0, max_y= 500, min_y = 0;
-  int rad = 35; // radius
+  int rad = 18; // radius
   int xdirection = 1;  // Left or Right
   int ydirection = 1;  // Top to Bottom
+  int xspeed = 3;
+  int yspeed = 3;
   
   //constructor
   Note(String note){
     this.note = note;
     this.pos = getRandomLoc();
-    this.vel = new PVector(2.1,3);
+    this.vel = new PVector(xspeed,yspeed);
+
   }
     
   void updatePos(){
   // Update the position of the shape
-  pos.x = pos.x + ( vel.x * xdirection );
-  pos.y = pos.y + ( vel.y * ydirection );
+  pos.x = pos.x + ( vel.x  );
+  pos.y = pos.y + ( vel.y );
   
   }
   
@@ -37,23 +40,28 @@ class Note {
    // Test to see if the shape exceeds the boundaries of the screen
   // If it does, reverse its direction by multiplying by -1
     if (pos.x > width-rad || pos.x < rad) {
-      xdirection *= -1;
+      //xdirection *= -1;
+      vel.x = -vel.x;
     }
     if (pos.y > height-rad || pos.y < rad) {
-      ydirection *= -1;
+      //ydirection *= -1;
+      vel.y = -vel.y;
     }
 
    }
   
   void noteCollide(Note scnd){
     //Tests to see if the notes collide
-    if(dist(pos.x-rad,pos.y-rad,scnd.pos.x-rad,scnd.pos.y-rad) < (rad*2)){
+    if(dist(pos.x,pos.y,scnd.pos.x,scnd.pos.y) < (rad*2)){
       println("collided");
-      
-      xdirection *= -1;
+      vel.x = -vel.x;
+      vel.y = -vel.y;
+      scnd.vel.x = -scnd.vel.x;
+      scnd.vel.y = -scnd.vel.y;
+     /* xdirection *= -1;
       ydirection *= -1;
       scnd.xdirection *= -1;
-      scnd.ydirection *= -1;
+      scnd.ydirection *= -1; */
     }
   }
   
@@ -72,8 +80,8 @@ class Note {
   */
   void draw(){
     noFill();
-    ellipseMode(CENTER);
-    updatePos();
+    ellipseMode(RADIUS);
+    //updatePos();
     ellipse(pos.x, pos.y, rad, rad);
     textAlign(CENTER,CENTER);
     textSize(18);
