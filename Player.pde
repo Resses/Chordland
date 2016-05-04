@@ -7,11 +7,9 @@
 //import Sound;
 //import oscp5;
 
-float angle = 0.0f;
-
-
 class Player {
-    PVector pos;
+    PVector pos, posA;
+    PVector guitar;
     int size = 50;
     int speed = 5;
     int vel = 5;
@@ -21,6 +19,8 @@ class Player {
     //constructor set player position to bottom center
     Player(){
       pos = new PVector(width/2 - size, height - size); 
+      guitar = new PVector(0,0);
+      posA = new PVector(pos.x+25, pos.y+50);
     }
     
     //draws the player and updates its position based on value of moveLeft and moveRight
@@ -45,13 +45,18 @@ class Player {
       fill(#ff0000);
       rect( pos.x, pos.y, size, size );
       
-      //find angle from mouse to bottom middle of screen
-     angle = atan2( mouseY  - pos.y, mouseX - pos.x );
+      guitar.x = mouseX;
+      guitar.y = mouseY;
+      
+      //find line from mouse to guitar and make guitar follow mouse
+      guitar.sub(posA);
+      guitar.normalize();
+      guitar.mult(85);
      
      translate( pos.x+25, pos.y+50 );
-     rotate( angle );
      strokeWeight(2);
-     line( 0, 0, 90, 0 );
+     line( 0, 0, guitar.x, guitar.y );
+
 
     } // end of draw()
     

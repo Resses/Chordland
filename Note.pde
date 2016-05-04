@@ -23,7 +23,7 @@ class Note {
   Note(String note){
     this.note = note;
     this.pos = getRandomLoc();
-    this.vel = new PVector(1,1);
+    this.vel = new PVector(2.1,3);
   }
     
   void updatePos(){
