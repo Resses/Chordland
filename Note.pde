@@ -43,7 +43,8 @@ class Note {
       //xdirection *= -1;
       vel.x = -vel.x;
     }
-    if (pos.y > height-rad || pos.y < rad) {
+    // 
+    if (pos.y > height-130 || pos.y < rad) {
       //ydirection *= -1;
       vel.y = -vel.y;
     }
@@ -116,7 +117,7 @@ boolean isLocUsed(PVector randLoc, PVector [] tempArr, int tempSize){
 PVector getRandomLoc() {
   return( new PVector(
   ((int)random(rad,(max_x+1-rad))/rad)*rad,
-  ((int)random(rad,(max_y+1-rad))/rad)*rad));
+  ((int)random(rad,(max_y+1-125))/rad)*rad));
 } // end of getRandomLoc()
 
 

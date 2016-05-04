@@ -92,6 +92,8 @@ void draw(){
       }
 
       c.draw();//lets us display the chord on the screen
+      fill(0);
+      rect(0,385,500,10);
       player.draw();
       
       break;
