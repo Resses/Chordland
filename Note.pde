@@ -25,7 +25,10 @@ class Note {
   Note(String note){
     this.note = note;
     this.pos = getRandomLoc();
-    this.vel = new PVector(xspeed,yspeed);
+    int rand = (int)random(0,2); //randomly go one way or oppposite
+    //this is so they dont all start in exactly the same way
+    if(rand == 0) this.vel = new PVector(xspeed,yspeed);
+    else this.vel = new PVector(-xspeed, -yspeed);
 
   }
     

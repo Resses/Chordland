@@ -32,6 +32,8 @@ final int CHOOSECHORDS = 2;
 
 Player player;
 ArrayList<Bullet> bullets;
+ArrayList<Note> notes;
+
 Key k;
 Note []chord; 
 Button b1, b2, b3;
@@ -49,6 +51,7 @@ void setup(){
   roundStats = "You got " + correct + " correct and " + incorrect + " incorrect.";
   title = createFont("font",75,true);
   bullets = new ArrayList <Bullet> ();
+  notes = new ArrayList <Note> ();
   //c = new Chord();//global chord variable, default constructor
   c = new Chord("C","E","G",MAJOR);
 }
@@ -82,11 +85,11 @@ void draw(){
       //gameplay
       background(#ffffff);
       
-      checkNoteCollide(chord);
-      for(int i = 0; i < chord.length; i++){
-        chord[i].collide();
-        chord[i].updatePos();
-        chord[i].draw();
+      checkNoteCollide();
+      for(int i = 0; i < notes.size(); i++){
+        notes.get(i).collide();
+        notes.get(i).updatePos();
+        notes.get(i).draw();
         
       }
       for(int i = 0; i < bullets.size(); i++)
@@ -171,35 +174,33 @@ void mousePressed() {
     if (b1.rectOver) {
       k = new Key(C, MAJOR);
        c = k.getChord((int)random(1,8));
-      //c.printChord();
-      //c.draw();
-      chord = new Note[3];
-      chord[0] = new Note(c.root);
-      chord[1] = new Note(c.third);
-      chord[2] = new Note(c.fifth);
+       k.fillNotes();
+
+//      chord = new Note[3];
+//      chord[0] = new Note(c.root);
+//      chord[1] = new Note(c.third);
+//      chord[2] = new Note(c.fifth);
       gameState = PLAY;
     }
     else if(b2.rectOver){
       k = new Key(D, MAJOR); 
       c = k.getChord((int)random(1,8));
-      //c.printChord();
-      //c.draw();
-      chord = new Note[3];
-      chord[0] = new Note(c.root);
-      chord[1] = new Note(c.third);
-      chord[2] = new Note(c.fifth);
+      k.fillNotes();
+//      chord = new Note[3];
+//      chord[0] = new Note(c.root);
+//      chord[1] = new Note(c.third);
+//      chord[2] = new Note(c.fifth);
       gameState = PLAY;
    
     }
     else if(b3.rectOver){
       k = new Key(G, MAJOR);
       c = k.getChord((int)random(1,8));
-     // c.printChord();
-       //c.draw();
-      chord = new Note[3];
-      chord[0] = new Note(c.root);
-      chord[1] = new Note(c.third);
-      chord[2] = new Note(c.fifth);
+      k.fillNotes();
+//      chord = new Note[3];
+//      chord[0] = new Note(c.root);
+//      chord[1] = new Note(c.third);
+//      chord[2] = new Note(c.fifth);
       gameState = PLAY;
     }
   }
@@ -216,13 +217,13 @@ void mousePressed() {
     
 }   
 
-void checkNoteCollide(Note [] chrd){
+void checkNoteCollide(){
   
   //check collision between all notes
-  for(int i = 0; i < chrd.length; i++){
-    for(int j = i+1; j < chrd.length; j++){
-      if(!(chrd[i].isEqual(chrd[j]))){
-        chrd[i].noteCollide(chrd[j]);
+  for(int i = 0; i < notes.size(); i++){
+    for(int j = i+1; j < notes.size(); j++){
+      if(!(notes.get(i).isEqual(notes.get(j)))){
+        notes.get(i).noteCollide(notes.get(j));
       }
     }
   }

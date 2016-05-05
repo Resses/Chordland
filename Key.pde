@@ -122,5 +122,11 @@ class Key{
       fifth = scale[(root+4) % 7];
       return new Chord(first, third, fifth, t);
    }
-  
+   
+   void fillNotes(){
+     notes.clear();
+      for(int i = 0; i < scale.length; i ++){
+        notes.add(new Note(scale[i]));
+      } 
+   }
 }
