@@ -22,6 +22,8 @@ class Chord{
   
   String getTypeString(int t){
     switch(t){
+      case DIMINISHED:
+        return "Diminished";
       case MINOR: 
         return "Minor";
       case MAJOR:
@@ -38,7 +40,8 @@ class Chord{
   void draw(){
    //String chordDisplay = printChord();
    textSize(20);
-   text(printChord(), 75, 10);
+   textAlign(LEFT, TOP);
+   text(printChord(), 10, 10);
 
   }
 }
