@@ -1,8 +1,8 @@
 class Bullet{
   // PVector used for the location of the bullet
   PVector pos, vel;
-  //for rotation based on mouse and speed
-//  float rotation;
+  int radius = 10;
+
   
   Bullet(float dirX, float dirY) {
 //    println("Creating bullet");
@@ -22,9 +22,26 @@ class Bullet{
     println(vel.x + " " + vel.y);
     pos.x += vel.x;
     pos.y += vel.y;
+    inBounds();
     //loc.add(vel); 
     fill(#ff0000);
-    ellipse(pos.x, pos.y, 10,10);
+    ellipse(pos.x, pos.y, radius,radius);
+    
+    
+  }
+  
+  //Returns whether or not a bullet and note collide
+  boolean bulletCollide(Note note){
+    if(dist(pos.x,pos.y,note.pos.x,note.pos.y) < (radius+note.rad)){
+      return true;
+    }
+    return false;
+  }
+  
+  void inBounds(){
+    if(pos.x < 0 || pos.y < 0 || pos.x > width || pos.y > height){
+      bullets.remove(this);
+    }
   }
 //  void shoot(){
 //    ellipse(loc.x,loc.y, 20, 20);

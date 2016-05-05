@@ -22,9 +22,15 @@ class Note {
   int yspeed = 3;
   
   //constructor
-  Note(String note){
+  Note(){
+    this.note = "placeholder";
+    this.pos = new PVector(30,30);
+    this.vel = new PVector(xspeed,yspeed);
+  }
+  //constructor
+  Note(String note, PVector posi){
     this.note = note;
-    this.pos = getRandomLoc();
+    this.pos = posi;
     this.vel = new PVector(xspeed,yspeed);
 
   }

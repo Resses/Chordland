@@ -21,6 +21,8 @@ NetAddress myRemoteLocation;
 PFont title;
 int x,y, weight;
 int gameState;
+int rad = 24;
+int max_x = 500, min_x = 0, max_y= 500, min_y = 0;
 int correct, incorrect;
 String roundStats;
 
@@ -51,7 +53,9 @@ void setup(){
   bullets = new ArrayList <Bullet> ();
   //c = new Chord();//global chord variable, default constructor
   c = new Chord("C","E","G",MAJOR);
+  
 }
+
 void draw(){
   switch(gameState) {
     case GAMEOVER:
@@ -92,6 +96,13 @@ void draw(){
       for(int i = 0; i < bullets.size(); i++)
       if(bullets.get(i) != null){
         bullets.get(i).draw();
+        //for(int c = 0; c < chord.length; c++){
+        //  if(bullets.get(i).bulletCollide(chord[c]))
+        //    //println("BULLET COLLISION");
+        //    // play a sound
+        //    //increment scores
+        //    //bullets.remove(i);
+        //}
       }
       c.draw();//lets us display the chord on the screen
       fill(0);
@@ -174,9 +185,10 @@ void mousePressed() {
       //c.printChord();
       //c.draw();
       chord = new Note[3];
-      chord[0] = new Note(c.root);
-      chord[1] = new Note(c.third);
-      chord[2] = new Note(c.fifth);
+      InitPopulateNote(chord);
+      chord[0] = new Note(c.root, getNewLoc(chord,chord.length));
+      chord[1] = new Note(c.third, getNewLoc(chord,chord.length));
+      chord[2] = new Note(c.fifth, getNewLoc(chord,chord.length));
       gameState = PLAY;
     }
     else if(b2.rectOver){
@@ -185,9 +197,10 @@ void mousePressed() {
       //c.printChord();
       //c.draw();
       chord = new Note[3];
-      chord[0] = new Note(c.root);
-      chord[1] = new Note(c.third);
-      chord[2] = new Note(c.fifth);
+      InitPopulateNote(chord); // init populate so unique location distribution works
+      chord[0] = new Note(c.root, getNewLoc(chord,chord.length));
+      chord[1] = new Note(c.third, getNewLoc(chord,chord.length));
+      chord[2] = new Note(c.fifth, getNewLoc(chord,chord.length));
       gameState = PLAY;
    
     }
@@ -197,9 +210,10 @@ void mousePressed() {
      // c.printChord();
        //c.draw();
       chord = new Note[3];
-      chord[0] = new Note(c.root);
-      chord[1] = new Note(c.third);
-      chord[2] = new Note(c.fifth);
+      InitPopulateNote(chord);
+      chord[0] = new Note(c.root, getNewLoc(chord,chord.length));
+      chord[1] = new Note(c.third, getNewLoc(chord,chord.length));
+      chord[2] = new Note(c.fifth, getNewLoc(chord,chord.length));
       gameState = PLAY;
     }
   }
@@ -238,3 +252,40 @@ void loadButtons(){
       b3 = new Button(10, 240, width-20, 50, "Key of G Major/ e minor: G, a, b, C, D, e, f#");
       b3.draw();
 }
+
+void InitPopulateNote(Note [] chrd){
+  for(int i = 0; i < chrd.length; i++){
+    chrd[i] = new Note();
+  }
+}
+
+/**Returns a new location that is unique 
+*/
+PVector getNewLoc(Note [] arr, int arrSize){
+  PVector temp = getRandomLoc();
+  //while it's not unique, try a new loc
+  while(isLocUsed(temp,arr,arrSize)){
+    temp = getRandomLoc();
+  }
+  //otheriwse return the unique location
+  return temp;
+}
+
+// Checks to see if a location exists in the given collection
+boolean isLocUsed(PVector randLoc, Note [] tempArr, int tempSize){
+  //check for randLoc
+  for(int i = 0; i < tempSize; i++){
+    if(tempArr[i].pos == randLoc){
+      //retun true if location is used
+      return true;
+    }
+  }
+  //if location is unique
+  return false;
+}
+
+PVector getRandomLoc() {
+  return( new PVector(
+  ((int)random(rad,(max_x+1-rad))/rad)*rad,
+  ((int)random(rad,(max_y+1-125))/rad)*rad));
+} // end of getRandomLoc()
