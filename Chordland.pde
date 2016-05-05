@@ -87,10 +87,12 @@ void draw(){
         chord[i].collide();
         chord[i].updatePos();
         chord[i].draw();
-        ;
         
       }
-
+      for(int i = 0; i < bullets.size(); i++)
+      if(bullets.get(i) != null){
+        bullets.get(i).draw();
+      }
       c.draw();//lets us display the chord on the screen
       fill(0);
       rect(0,385,500,10);
@@ -202,12 +204,14 @@ void mousePressed() {
     }
   }
   if(gameState == PLAY){
+    player.shoot();
     //shoot = true;
-    Bullet temp;
-    bullets.add(new Bullet());
-    temp = bullets.get(0);
-    temp.shoot();
-    temp.update();
+//    Bullet temp;
+//    bullets.add(new Bullet());
+//    temp = bullets.get(0);
+//    temp.draw();
+//    temp.shoot();
+//    temp.update();
   }
     
 }   

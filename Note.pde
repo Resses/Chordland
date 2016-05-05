@@ -15,7 +15,7 @@ class Note {
   String note;
   float pitch;
   int max_x = 500, min_x = 0, max_y= 500, min_y = 0;
-  int rad = 18; // radius
+  int rad = 24; // radius
   int xdirection = 1;  // Left or Right
   int ydirection = 1;  // Top to Bottom
   int xspeed = 3;
@@ -85,7 +85,7 @@ class Note {
     //updatePos();
     ellipse(pos.x, pos.y, rad, rad);
     textAlign(CENTER,CENTER);
-    textSize(18);
+    textSize(24);
     text(note, pos.x, pos.y);
   }
 
