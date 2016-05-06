@@ -35,7 +35,7 @@ final int CHOOSECHORDS = 2;
 Player player;
 ArrayList<Bullet> bullets;
 ArrayList<Note> notes;
-
+int shots;
 Key k;
 Note []chord; 
 Button b1, b2, b3;
@@ -50,7 +50,8 @@ void setup(){
   gameState = STARTSCREEN;
   correct = 0;
   incorrect = 0;
-  roundStats = "You got " + correct + " correct and " + incorrect + " incorrect.";
+  shots = 0;
+  //roundStats = 
   title = createFont("font",75,true);
   bullets = new ArrayList <Bullet> ();
   notes = new ArrayList <Note> ();
@@ -68,7 +69,7 @@ void draw(){
       textSize(32);
       text("Game Over", width/2, height/2);
       textSize(24);
-      text(roundStats, width/2, height/2 + 50);
+      text("You got " + correct + " correct and " + incorrect + " incorrect.", width/2, height/2 + 50);
       break;
       
     case STARTSCREEN: 
@@ -88,7 +89,9 @@ void draw(){
     case PLAY: 
       //gameplay
       background(#ffffff);
-      
+      text("correct: " + correct, 10, 30);
+      text("incorrect: " + incorrect, 10, 50);
+      text("shots: " + shots, 10, 70);
       checkNoteCollide();
       for(int i = 0; i < notes.size(); i++){
         notes.get(i).collide();
@@ -115,17 +118,31 @@ void draw(){
         if(bullets.get(i) != null){
         Bullet bullet = bullets.get(i);
         bullet.draw();
-        for(int c = 0; c < notes.size(); c++){
-          if(bullets.get(i).bulletCollide(notes.get(c))) {
+        for(int k = 0; k < notes.size(); k++){
+          if(bullets.get(i).bulletCollide(notes.get(k))) {
            println("BULLET COLLISION");
-           notes.remove(c);
-           //bullets.remove(i);
+           if(notes.get(k).note == c.root || notes.get(k).note == c.third || notes.get(k).note == c.fifth){
+             correct++; }
+           else
+             incorrect++;
+             
+             notes.remove(k);
+             bullets.remove(i);
+             println("num correct: " + correct);
+             if(correct == 3 || incorrect == 4)
+               gameState = GAMEOVER;
+             break;
+               
+           
+           }
+           
           }
           
         }
-        
-      }
-  }
+        }
+      
+      
+  
       c.draw();//lets us display the chord on the screen
       fill(0);
       rect(0,385,500,10);
@@ -247,6 +264,7 @@ void mousePressed() {
   }
   if(gameState == PLAY){
     player.shoot();
+    shots++;
     //shoot = true;
 //    Bullet temp;
 //    bullets.add(new Bullet());
