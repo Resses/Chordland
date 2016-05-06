@@ -32,7 +32,6 @@ class Note {
     this.note = note;
     this.pos = posi;
     this.vel = new PVector(xspeed,yspeed);
-
   }
     
   void updatePos(){
