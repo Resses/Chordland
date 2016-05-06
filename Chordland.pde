@@ -96,17 +96,36 @@ void draw(){
         notes.get(i).draw();
         
       }
-      for(int i = 0; i < bullets.size(); i++)
+      
+     /*      
+      for(int i = 0; i < bullets.size(); i++){
       if(bullets.get(i) != null){
-        bullets.get(i).draw();
-        //for(int c = 0; c < chord.length; c++){
-        //  if(bullets.get(i).bulletCollide(chord[c]))
-        //    //println("BULLET COLLISION");
+        bullets.get(i).draw(); }
+        for(int c = 0; c < notes.size(); c++){
+          //if(bullets.get(i).bulletCollide(notes.get(c)))
+           println("BULLET COLLISION");
+        }
+      }*/
         //    // play a sound
         //    //increment scores
         //    //bullets.remove(i);
-        //}
+ 
+      
+      for(int i = bullets.size() - 1; i >= 0; i--){
+        if(bullets.get(i) != null){
+        Bullet bullet = bullets.get(i);
+        bullet.draw();
+        for(int c = 0; c < notes.size(); c++){
+          if(bullets.get(i).bulletCollide(notes.get(c))) {
+           println("BULLET COLLISION");
+           notes.remove(c);
+           //bullets.remove(i);
+          }
+          
+        }
+        
       }
+  }
       c.draw();//lets us display the chord on the screen
       fill(0);
       rect(0,385,500,10);
@@ -154,13 +173,7 @@ void keyPressed(){
   if(key == 'q' || key == 'Q'){
     gameState = GAMEOVER;
   }
-  // shoot bullet
-  /*if(key == ' ' || key == ' '){
-    Bullet temp;
-    bullets.add(new Bullet());
-    temp = bullets.get(0);
-    temp.shoot();
-  } */
+  
 }//end key pressed 
    
 void keyReleased(){
