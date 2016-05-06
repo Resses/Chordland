@@ -23,9 +23,6 @@ final int Bb = 14;
 final int MAJOR = 0;
 final int MINOR = 1;
 final int DIMINISHED = 2;
-//final int SHARP = 1;
-//final int NATURAL = 0;
-//final int FLAT = -1;
 
 class Key{
   int currentKey;

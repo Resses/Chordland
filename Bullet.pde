@@ -16,7 +16,7 @@ class Bullet{
     vel = new PVector();
     vel.x = dirX * 5;
     vel.y = dirY * 5;
-    println(vel);
+//    println(vel);
   }
   
   void draw() { 

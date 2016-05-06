@@ -20,6 +20,7 @@ class Note {
   int ydirection = 1;  // Top to Bottom
   int xspeed = 3;
   int yspeed = 3;
+  boolean switched = false;
   
   //constructor
   Note(){
@@ -39,24 +40,23 @@ class Note {
     this.pos = posi;
     this.vel = new PVector(xspeed,yspeed);
   }
-    
-    
   void updatePos(){
   // Update the position of the shape
-  pos.x = pos.x + ( vel.x  );
-  pos.y = pos.y + ( vel.y );
-  
+    pos.x = pos.x + ( vel.x  );
+    pos.y = pos.y + ( vel.y );
   }
-  
+  void relocate(){
+    pos = getNewLoc(notes, notes.size());
+  }
   void collide(){
    // Test to see if the shape exceeds the boundaries of the screen
   // If it does, reverse its direction by multiplying by -1
-    if (pos.x > width-rad || pos.x < rad) {
+    if ((pos.x > width-rad && vel.x > 0)|| (pos.x < rad && vel.x <0)) {
       //xdirection *= -1;
       vel.x = -vel.x;
     }
     // 
-    if (pos.y > height-130 || pos.y < rad) {
+    if ((pos.y > height-130 && vel.y >0) || (pos.y < rad && vel.y <0) ) {
       //ydirection *= -1;
       vel.y = -vel.y;
     }
@@ -66,11 +66,17 @@ class Note {
   void noteCollide(Note scnd){
     //Tests to see if the notes collide
     if(dist(pos.x,pos.y,scnd.pos.x,scnd.pos.y) < (rad*2)){
-      println("collided");
-      vel.x = -vel.x;
-      vel.y = -vel.y;
-      scnd.vel.x = -scnd.vel.x;
-      scnd.vel.y = -scnd.vel.y;
+//      println("collided");
+      if(!switched){
+        vel.x = -vel.x;
+        vel.y = -vel.y;
+        switched = true;
+      }
+      if(!scnd.switched){
+        scnd.vel.x = -scnd.vel.x;
+        scnd.vel.y = -scnd.vel.y;
+        scnd.switched = true;
+      }
      /* xdirection *= -1;
       ydirection *= -1;
       scnd.xdirection *= -1;

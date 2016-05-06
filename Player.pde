@@ -66,5 +66,4 @@ class Player {
     void shoot(){
       bullets.add(new Bullet(bulletDir.x, bulletDir.y));
     }
- 
 }
