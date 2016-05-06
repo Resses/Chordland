@@ -121,6 +121,7 @@ void draw(){
         for(int k = 0; k < notes.size(); k++){
           if(bullets.get(i).bulletCollide(notes.get(k))) {
            println("BULLET COLLISION");
+
            if(notes.get(k).note == c.root || notes.get(k).note == c.third || notes.get(k).note == c.fifth){
              correct++; }
            else
@@ -136,6 +137,7 @@ void draw(){
            
            }
            
+
           }
           
         }
