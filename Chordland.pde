@@ -190,10 +190,10 @@ void mousePressed() {
       //c.draw();
       chord = new Note[3];
       InitPopulateNote(chord);
-      chord[0] = new Note(c.root, getNewLoc(chord,chord.length));
-      chord[1] = new Note(c.third, getNewLoc(chord,chord.length));
-      chord[2] = new Note(c.fifth, getNewLoc(chord,chord.length));
-       k.fillNotes();
+      k.fillNotes();
+      //chord[0] = new Note(c.root, getNewLoc(chord,chord.length));
+      //chord[1] = new Note(c.third, getNewLoc(chord,chord.length));
+      //chord[2] = new Note(c.fifth, getNewLoc(chord,chord.length));
 
       gameState = PLAY;
     }
@@ -205,12 +205,12 @@ void mousePressed() {
       //c.draw();
       chord = new Note[3];
       InitPopulateNote(chord); // init populate so unique location distribution works
-      chord[0] = new Note(c.root, getNewLoc(chord,chord.length));
-      chord[1] = new Note(c.third, getNewLoc(chord,chord.length));
-      chord[2] = new Note(c.fifth, getNewLoc(chord,chord.length));
-
       k.fillNotes();
+      //chord[0] = new Note(c.root, getNewLoc(chord,chord.length));
+      //chord[1] = new Note(c.third, getNewLoc(chord,chord.length));
+      //chord[2] = new Note(c.fifth, getNewLoc(chord,chord.length));
 
+     
       gameState = PLAY;
    
     }
@@ -220,13 +220,15 @@ void mousePressed() {
 
      // c.printChord();
        //c.draw();
+       
       chord = new Note[3];
       InitPopulateNote(chord);
-      chord[0] = new Note(c.root, getNewLoc(chord,chord.length));
-      chord[1] = new Note(c.third, getNewLoc(chord,chord.length));
-      chord[2] = new Note(c.fifth, getNewLoc(chord,chord.length));
-
       k.fillNotes();
+      //chord[0] = new Note(c.root, getNewLoc(chord,chord.length));
+      //chord[1] = new Note(c.third, getNewLoc(chord,chord.length));
+      //chord[2] = new Note(c.fifth, getNewLoc(chord,chord.length));
+
+      
       gameState = PLAY;
     }
   }
@@ -274,7 +276,7 @@ void InitPopulateNote(Note [] chrd){
 
 /**Returns a new location that is unique 
 */
-PVector getNewLoc(Note [] arr, int arrSize){
+PVector getNewLoc(ArrayList<Note> arr, int arrSize){
   PVector temp = getRandomLoc();
   //while it's not unique, try a new loc
   while(isLocUsed(temp,arr,arrSize)){
@@ -285,10 +287,10 @@ PVector getNewLoc(Note [] arr, int arrSize){
 }
 
 // Checks to see if a location exists in the given collection
-boolean isLocUsed(PVector randLoc, Note [] tempArr, int tempSize){
+boolean isLocUsed(PVector randLoc, ArrayList<Note> tempArr, int tempSize){
   //check for randLoc
   for(int i = 0; i < tempSize; i++){
-    if(tempArr[i].pos == randLoc){
+    if(tempArr.get(i).pos == randLoc){
       //retun true if location is used
       return true;
     }

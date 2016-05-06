@@ -126,7 +126,12 @@ class Key{
    void fillNotes(){
      notes.clear();
       for(int i = 0; i < scale.length; i ++){
-        notes.add(new Note(scale[i]));
+        if(i == 0){
+         notes.add(new Note(scale[i], getRandomLoc())); 
+        }
+        else{
+          notes.add(new Note(scale[i], getNewLoc(notes, notes.size())));
+        }
       } 
    }
 }

@@ -19,7 +19,7 @@ class Bullet{
   }
   
   void draw() { 
-    println(vel.x + " " + vel.y);
+    //println(vel.x + " " + vel.y);
     pos.x += vel.x;
     pos.y += vel.y;
     inBounds();

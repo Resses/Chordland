@@ -28,11 +28,18 @@ class Note {
     this.vel = new PVector(xspeed,yspeed);
   }
   //constructor
+  Note(String note){
+    this.note = note;
+    this.pos = getRandomLoc();
+    this.vel = new PVector(xspeed,yspeed);
+  }
+  //constructor
   Note(String note, PVector posi){
     this.note = note;
     this.pos = posi;
     this.vel = new PVector(xspeed,yspeed);
   }
+    
     
   void updatePos(){
   // Update the position of the shape
@@ -94,36 +101,36 @@ class Note {
     text(note, pos.x, pos.y);
   }
 
-/**Returns a new location that is unique 
-*/
-PVector getNewLoc(PVector [] arr, int arrSize){
-  PVector temp = getRandomLoc();
-  //while it's not unique, try a new loc
-  while(isLocUsed(temp,arr,arrSize)){
-    temp = getRandomLoc();
-  }
-  //otheriwse return the unique location
-  return temp;
-}
+///**Returns a new location that is unique 
+//*/
+//PVector getNewLoc(PVector [] arr, int arrSize){
+//  PVector temp = getRandomLoc();
+//  //while it's not unique, try a new loc
+//  while(isLocUsed(temp,arr,arrSize)){
+//    temp = getRandomLoc();
+//  }
+//  //otheriwse return the unique location
+//  return temp;
+//}
 
-// Checks to see if a location exists in the given collection
-boolean isLocUsed(PVector randLoc, PVector [] tempArr, int tempSize){
-  //check for randLoc
-  for(int i = 0; i < tempSize; i++){
-    if(tempArr[i] == randLoc){
-      //retun true if location is used
-      return true;
-    }
-  }
-  //if location is unique
-  return false;
-}
+//// Checks to see if a location exists in the given collection
+//boolean isLocUsed(PVector randLoc, PVector [] tempArr, int tempSize){
+//  //check for randLoc
+//  for(int i = 0; i < tempSize; i++){
+//    if(tempArr[i] == randLoc){
+//      //retun true if location is used
+//      return true;
+//    }
+//  }
+//  //if location is unique
+//  return false;
+//}
 
-PVector getRandomLoc() {
-  return( new PVector(
-  ((int)random(rad,(max_x+1-rad))/rad)*rad,
-  ((int)random(rad,(max_y+1-125))/rad)*rad));
-} // end of getRandomLoc()
+//PVector getRandomLoc() {
+//  return( new PVector(
+//  ((int)random(rad,(max_x+1-rad))/rad)*rad,
+//  ((int)random(rad,(max_y+1-125))/rad)*rad));
+//} // end of getRandomLoc()
 
 
 }
