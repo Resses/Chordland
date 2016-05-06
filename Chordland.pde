@@ -118,8 +118,9 @@ void draw(){
         for(int c = 0; c < notes.size(); c++){
           if(bullets.get(i).bulletCollide(notes.get(c))) {
            println("BULLET COLLISION");
-           notes.remove(c);
-           //bullets.remove(i);
+           notes.remove(c); // remove the note
+           bullets.remove(i); // remove the bullet without checking against rest
+           break;
           }
           
         }
