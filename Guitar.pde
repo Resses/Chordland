@@ -2,19 +2,19 @@ class Guitar{
   PImage guitarImg;
   PVector startPos;
   PVector direction;
-  int size = 85;
-  int sizeWid = 37;
-  int sizeHgt = 69;
+  int sizeWid = 45; //for GuitarChordland image, use 80
+  int sizeHgt = 100; //'' '' use 100
+  float angle;
   
   Guitar(PVector start){
     startPos = start;
     direction = new PVector(0,0);
-    guitarImg = loadImage("GuitarChordland.png");
+    guitarImg = loadImage("guitar2.png");
   }
     
   void setStart(){
     startPos.x = player.getCenterX();
-    startPos.y = player.getBottomY();
+    startPos.y = player.getCenterY();
   }
   
   void setDirection(){
@@ -22,13 +22,18 @@ class Guitar{
     direction.y = mouseY;
     direction.sub(startPos);
     direction.normalize();
+    angle = PVector.angleBetween(new PVector(0,-1), direction);
+    if(direction.x < 0){
+      angle*=-1;
+    }
+
   }
 
   float getEndX(){
-    return startPos.x + (size * direction.x);
+    return startPos.x + ((sizeWid/2.) * direction.x);
   }
   float getEndY(){
-    return startPos.y + (size * direction.y);
+    return startPos.y + (sizeHgt/2. * direction.y);
   }
   
   
@@ -39,6 +44,12 @@ class Guitar{
     strokeWeight(2);
     println(startPos + " to " + getEndX() + ", " + getEndY() );
 //    println( startPos.x + ", " + startPos.y + " to "  + getEndX() ", " + getEndY());
-    line( startPos.x, startPos.y, getEndX(), getEndY());
+//    line( startPos.x, startPos.y, getEndX(), getEndY());
+    translate(startPos.x, startPos.y);
+    rotate(angle);
+    println("rotating " + degrees(angle));
+    imageMode(CENTER);
+    image(guitarImg, 0,0, sizeWid, sizeHgt);
+    
   }
 }

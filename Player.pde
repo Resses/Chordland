@@ -20,8 +20,8 @@ class Player {
     
     //constructor set player position to bottom center of screen, and creates a guitar at the bottom center of itself
     Player(){
-      pos = new PVector(width/2 - sizeWid, height - sizeHgt); 
-      guitar = new Guitar(new PVector(getCenterX(), getBottomY()));  
+      pos = new PVector(width/2 - sizeWid, height -sizeHgt); 
+      guitar = new Guitar(new PVector(getCenterX(), getCenterY()));  
       playerImg = loadImage("KazukiChordland.png");
     }
     
@@ -51,8 +51,8 @@ class Player {
       return pos.x + sizeWid/2;
     }
     
-    float getBottomY(){
-      return pos.y + sizeHgt;
+    float getCenterY(){
+      return pos.y + sizeHgt/2;
     }
 
     void shoot(){
@@ -65,9 +65,13 @@ class Player {
       updatePos();
       //draw
       fill(#ff0000);
-      //rect( pos.x, pos.y, size, size );
+//      rect( pos.x, pos.y, sizeWid, sizeHgt );
+      imageMode(CORNER);
       image(playerImg,pos.x,pos.y,37,69);
       guitar.draw();
     } // end of draw()
     
 }
+
+
+
