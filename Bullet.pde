@@ -2,33 +2,20 @@ class Bullet{
   // PVector used for the location of the bullet
   PVector pos, vel;
   int radius = 10;
-
+  int speed = 5;
   
-  Bullet(float dirX, float dirY) {
-//    println("Creating bullet");
-    //places the bullet in the middle of the room
-    pos = new PVector(player.pos.x+25, player.pos.y+50);
-    //pos = new PVector(player.bulletDir.x, player.bulletDir.y);
-    
-    //this checks the angle
-//    rotation = atan2(mouseY - loc.y, mouseX - loc.x);
-    //bullet speed
-    vel = new PVector();
-    vel.x = dirX * 5;
-    vel.y = dirY * 5;
-//    println(vel);
+  Bullet(float posX, float posY, float dirX, float dirY) {
+    // println("Creating bullet");
+    pos = new PVector(posX, posY);
+    vel = new PVector(dirX * speed, dirY * speed);
+    //println(vel);
   }
   
   void draw() { 
-    //println(vel.x + " " + vel.y);
     pos.x += vel.x;
     pos.y += vel.y;
-   // inBounds();
-    //loc.add(vel); 
     fill(#ff0000);
     ellipse(pos.x, pos.y, radius,radius);
-    
-    
   }
   
   //Returns whether or not a bullet and note collide
@@ -39,14 +26,11 @@ class Bullet{
     return false;
   }
 
-  void inBounds(){
+  boolean inBounds(){
     if(pos.x < 0 || pos.y < 0 || pos.x > width || pos.y > height){
-      bullets.remove(this);
+      return false;
     }
+    return true;
   }
-//  void shoot(){
-//    ellipse(loc.x,loc.y, 20, 20);
-//  }
-  
   
 }

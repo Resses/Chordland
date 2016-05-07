@@ -106,9 +106,9 @@ void draw(){
       //gameplay
       background(#ffffff);
       textSize(14);
-      text("Correct: " + correct, 10, 30);
-      text("Incorrect: " + incorrect, 10, 50);
-      text("Chords Mastered: " + chordsMastered, 10, 70);
+      text("Correct: " + correct, 10, 40);
+      text("Incorrect: " + incorrect, 10, 60);
+      text("Chords Mastered: " + chordsMastered, 10, 80);
 //      text("shots: " + shots, 10, 70);
       checkNoteCollide(); //checks for notes colliding with each other
       for(int i = 0; i < notes.size(); i++){
@@ -117,31 +117,14 @@ void draw(){
         notes.get(i).draw(); 
       }  
       for(int i = bullets.size() - 1; i >= 0; i--){
-        bullets.get(i).draw();
-        for(int k = 0; k < notes.size(); k++){
-          if(bullets.get(i).bulletCollide(notes.get(k))) {
-//             println("BULLET COLLISION");
-             if(notes.get(k).note == c.root || notes.get(k).note == c.third || notes.get(k).note == c.fifth){
-               correct++; 
-               notes.remove(k);
-             }
-             else{
-               incorrect++;
-                notes.get(k).relocate();
-             }
-//             String s = notes.get(k).note;
-             bullets.remove(i);
-//             println("num correct: " + correct);
-//             if(correct == 3 || incorrect == 4)
-//               gameState = GAMEOVER;
-             if(correct == 3){ //if you get three correct, the chord changes
-               changeChord();
-             }
-//             if(incorrect == 8){
-//               gameState = GAMEOVER;
-//             }
-             break;
-           }
+        println("There are " +  bullets.size() + " bullets");
+        if(bullets.get(i).inBounds()){
+          bullets.get(i).draw();
+          //check bullet collisions
+          checkBulletCollide(i);
+        }
+        else{
+          bullets.remove(i); //remove bullet when out of bounds of screen
         }  
       }
       c.draw();//lets us display the chord on the screen
@@ -265,17 +248,39 @@ void checkNoteCollide(){
     notes.get(i).switched = false;
   }
 }
-
+void checkBulletCollide(int i){
+    for(int k = 0; k < notes.size(); k++){
+      if(bullets.get(i).bulletCollide(notes.get(k))) {
+         //println("BULLET COLLISION");
+         if(notes.get(k).note == c.root || notes.get(k).note == c.third || notes.get(k).note == c.fifth){
+           correct++; 
+           notes.remove(k);
+         }
+         else{
+           incorrect++;
+            notes.get(k).relocate();
+         }
+         bullets.remove(i);
+         if(correct == 3){ //if you get three correct, the chord changes
+           changeChord();
+         }
+         if(incorrect == 8){
+           gameState = GAMEOVER;
+         }
+         break;
+       }
+    }
+}
 void loadButtons(){
-      textAlign(CENTER);
-      textSize(18);
-      text("Which chords do you want to master now? ", width/2, 50);
-      b1 = new Button(10, 100, width-20, 50, "Key of C Major/ A minor: C, d, e, F, G, a, b");
-      b1.draw();
-      b2 = new Button(10, 170, width-20, 50, "Key of D Major/ B minor: D, e, f#, G, A, b, c#");
-      b2.draw();      
-      b3 = new Button(10, 240, width-20, 50, "Key of G Major/ e minor: G, a, b, C, D, e, f#");
-      b3.draw();
+    textAlign(CENTER);
+    textSize(18);
+    text("Which chords do you want to master now? ", width/2, 50);
+    b1 = new Button(10, 100, width-20, 50, "Key of C Major/ A minor: C, d, e, F, G, a, b");
+    b1.draw();
+    b2 = new Button(10, 170, width-20, 50, "Key of D Major/ B minor: D, e, f#, G, A, b, c#");
+    b2.draw();      
+    b3 = new Button(10, 240, width-20, 50, "Key of G Major/ e minor: G, a, b, C, D, e, f#");
+    b3.draw();
 }
 
 
@@ -295,9 +300,8 @@ PVector getNewLoc(ArrayList<Note> arr, int arrSize){
 boolean isLocUsed(PVector randLoc, ArrayList<Note> tempArr, int tempSize){
   //check for randLoc
   for(int i = 0; i < tempSize; i++){
-//    if(tempArr.get(i).pos == randLoc){
     if(dist(tempArr.get(i).pos.x, tempArr.get(i).pos.y, randLoc.x, randLoc.y) < (tempArr.get(i).rad * 2)){
-      //retun true if location is used
+      //retun true if location would collide with a location that is already used
       return true;
     }
   }
