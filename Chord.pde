@@ -32,8 +32,7 @@ class Chord{
     }
   }
   
-  String printChord(){
-    //println(root + " " + getTypeString(type) + " : " + root + " " + third + " "  + fifth);
+  String getChordString(){
     return((root + " " + getTypeString(type) + " : " + root + " " + third + " "  + fifth));
   }
   
@@ -41,7 +40,7 @@ class Chord{
    //String chordDisplay = printChord();
    textSize(20);
    textAlign(LEFT, TOP);
-   text(printChord(), 10, 10);
+   text(getChordString(), 10, 10);
 
   }
 }

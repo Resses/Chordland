@@ -37,9 +37,12 @@ ArrayList<Bullet> bullets;
 ArrayList<Note> notes;
 int shots;
 Key k;
-Note []chord; 
+ArrayList<Integer>chordsLeft; 
+int chordsMastered;
 Button b1, b2, b3;
 Chord c;
+boolean winner;
+
 void setup(){
   size(500,500);
   //load font for score keeping
@@ -51,10 +54,16 @@ void setup(){
   correct = 0;
   incorrect = 0;
   shots = 0;
+  winner = false;
   //roundStats = 
   title = createFont("font",75,true);
   bullets = new ArrayList <Bullet> ();
   notes = new ArrayList <Note> ();
+  chordsLeft = new ArrayList<Integer>();
+  for(int i = 1; i < 8; i++){
+    chordsLeft.add(i);
+  }
+  chordsMastered = -1;
   //c = new Chord();//global chord variable, default constructor
   c = new Chord("C","E","G",MAJOR);
   
@@ -63,13 +72,20 @@ void setup(){
 void draw(){
   switch(gameState) {
     case GAMEOVER:
-      background(#000000);
+      background(0);
       fill(240);
       textAlign(CENTER);
       textSize(32);
+      if(winner){
+        text("MASTER!" , width/2, height/2);
+      }
+      else{
       text("Game Over", width/2, height/2);
-      textSize(24);
-      text("You got " + correct + " correct and " + incorrect + " incorrect.", width/2, height/2 + 50);
+      }
+      textSize(16);
+//      text("You got " + correct + " correct and " + incorrect + " incorrect.", width/2, height/2 + 50);
+      text("You've mastered " + chordsMastered + " chords and got " + incorrect + " incorrect." , width/2, height/2 + 50);
+
       break;
       
     case STARTSCREEN: 
@@ -88,73 +104,37 @@ void draw(){
     
     case PLAY: 
       //gameplay
-      background(#ffffff);
-      text("correct: " + correct, 10, 30);
-      text("incorrect: " + incorrect, 10, 50);
-      text("shots: " + shots, 10, 70);
-      checkNoteCollide();
+      background(#cce6ff);
+      textSize(14);
+      text("Correct: " + correct, 10, 40);
+      text("Incorrect: " + incorrect, 10, 60);
+      text("Chords Mastered: " + chordsMastered, 10, 80);
+//      text("shots: " + shots, 10, 70);
+      checkNoteCollide(); //checks for notes colliding with each other
       for(int i = 0; i < notes.size(); i++){
-        notes.get(i).collide();
+        notes.get(i).collide(); //checks for notes colliding with the screen boundaries
         notes.get(i).updatePos();
-        notes.get(i).draw();
-        
-      }
-      
-     /*      
-      for(int i = 0; i < bullets.size(); i++){
-      if(bullets.get(i) != null){
-        bullets.get(i).draw(); }
-        for(int c = 0; c < notes.size(); c++){
-          //if(bullets.get(i).bulletCollide(notes.get(c)))
-           println("BULLET COLLISION");
-        }
-      }*/
-        //    // play a sound
-        //    //increment scores
-        //    //bullets.remove(i);
- 
-      
+        notes.get(i).draw(); 
+      }  
       for(int i = bullets.size() - 1; i >= 0; i--){
-        if(bullets.get(i) != null){
-        Bullet bullet = bullets.get(i);
-        bullet.draw();
-        for(int k = 0; k < notes.size(); k++){
-          if(bullets.get(i).bulletCollide(notes.get(k))) {
-           println("BULLET COLLISION");
-
-           if(notes.get(k).note == c.root || notes.get(k).note == c.third || notes.get(k).note == c.fifth){
-             correct++; }
-           else
-             incorrect++;
-             
-             notes.remove(k);
-             bullets.remove(i);
-             println("num correct: " + correct);
-             if(correct == 3 || incorrect == 4)
-               gameState = GAMEOVER;
-             break;
-               
-           
-           }
-           
-
-          }
-          
+        println("There are " +  bullets.size() + " bullets");
+        if(bullets.get(i).inBounds()){
+          bullets.get(i).draw();
+          //check bullet collisions
+          checkBulletCollide(i);
         }
-        }
-      
-      
-  
+        else{
+          bullets.remove(i); //remove bullet when out of bounds of screen
+        }  
+      }
       c.draw();//lets us display the chord on the screen
       fill(0);
       rect(0,385,500,10);
       player.draw();
-      
       break;
       
    case CHOOSECHORDS:
      background(#999999);
-     
      loadButtons();
      break;
   
@@ -216,96 +196,93 @@ void mousePressed() {
   if(gameState == CHOOSECHORDS){
     if (b1.rectOver) {
       k = new Key(C, MAJOR);
-       c = k.getChord((int)random(1,8));
-
-      //c.printChord();
-      //c.draw();
-      chord = new Note[3];
-      InitPopulateNote(chord);
-      k.fillNotes();
-      //chord[0] = new Note(c.root, getNewLoc(chord,chord.length));
-      //chord[1] = new Note(c.third, getNewLoc(chord,chord.length));
-      //chord[2] = new Note(c.fifth, getNewLoc(chord,chord.length));
-
+      changeChord();
       gameState = PLAY;
     }
     else if(b2.rectOver){
-      k = new Key(D, MAJOR); 
-      c = k.getChord((int)random(1,8));
-
-      //c.printChord();
-      //c.draw();
-      chord = new Note[3];
-      InitPopulateNote(chord); // init populate so unique location distribution works
-      k.fillNotes();
-      //chord[0] = new Note(c.root, getNewLoc(chord,chord.length));
-      //chord[1] = new Note(c.third, getNewLoc(chord,chord.length));
-      //chord[2] = new Note(c.fifth, getNewLoc(chord,chord.length));
-
-     
+      k = new Key(D, MAJOR);
+      changeChord(); 
       gameState = PLAY;
    
     }
     else if(b3.rectOver){
       k = new Key(G, MAJOR);
-      c = k.getChord((int)random(1,8));
-
-     // c.printChord();
-       //c.draw();
-       
-      chord = new Note[3];
-      InitPopulateNote(chord);
-      k.fillNotes();
-      //chord[0] = new Note(c.root, getNewLoc(chord,chord.length));
-      //chord[1] = new Note(c.third, getNewLoc(chord,chord.length));
-      //chord[2] = new Note(c.fifth, getNewLoc(chord,chord.length));
-
-      
+      changeChord();
       gameState = PLAY;
     }
   }
-  if(gameState == PLAY){
+  else if(gameState == PLAY){
     player.shoot();
     shots++;
-    //shoot = true;
-//    Bullet temp;
-//    bullets.add(new Bullet());
-//    temp = bullets.get(0);
-//    temp.draw();
-//    temp.shoot();
-//    temp.update();
-  }
-    
+  }    
 }   
 
+void changeChord(){
+  chordsMastered ++;
+  if(chordsLeft.size() <= 0 ){
+    winner = true;
+    gameState = GAMEOVER;
+  }
+  else{
+    k.fillNotes();
+    Integer r = (int)random(chordsLeft.size());
+    c = k.getChord(chordsLeft.get(r));
+    println("Changing chord to " + chordsLeft.get(r) + ". Size is " + chordsLeft.size());
+    chordsLeft.remove(chordsLeft.get(r));
+    println("After removing, size is " + chordsLeft.size());
+    correct = 0;
+//    incorrect = 0;
+  }
+}
+
 void checkNoteCollide(){
-  
   //check collision between all notes
   for(int i = 0; i < notes.size(); i++){
     for(int j = i+1; j < notes.size(); j++){
-      if(!(notes.get(i).isEqual(notes.get(j)))){
+//      if(!(notes.get(i).isEqual(notes.get(j)))){
         notes.get(i).noteCollide(notes.get(j));
-      }
+//      }
     }
   }
-}
-
-void loadButtons(){
-      textAlign(CENTER);
-      text("Which chords do you want to master now? ", width/2, 50);
-      b1 = new Button(10, 100, width-20, 50, "Key of C Major/ A minor: C, d, e, F, G, a, b");
-      b1.draw();
-      b2 = new Button(10, 170, width-20, 50, "Key of D Major/ B minor: D, e, f#, G, A, b, c#");
-      b2.draw();      
-      b3 = new Button(10, 240, width-20, 50, "Key of G Major/ e minor: G, a, b, C, D, e, f#");
-      b3.draw();
-}
-
-void InitPopulateNote(Note [] chrd){
-  for(int i = 0; i < chrd.length; i++){
-    chrd[i] = new Note();
+  for(int i = 0; i < notes.size(); i++){
+    notes.get(i).switched = false;
   }
 }
+void checkBulletCollide(int i){
+    for(int k = 0; k < notes.size(); k++){
+      if(bullets.get(i).bulletCollide(notes.get(k))) {
+         //println("BULLET COLLISION");
+         if(notes.get(k).note == c.root || notes.get(k).note == c.third || notes.get(k).note == c.fifth){
+           correct++; 
+           notes.remove(k);
+         }
+         else{
+           incorrect++;
+            notes.get(k).relocate();
+         }
+         bullets.remove(i);
+         if(correct == 3){ //if you get three correct, the chord changes
+           changeChord();
+         }
+         if(incorrect == 8){
+           gameState = GAMEOVER;
+         }
+         break;
+       }
+    }
+}
+void loadButtons(){
+    textAlign(CENTER);
+    textSize(18);
+    text("Which chords do you want to master now? ", width/2, 50);
+    b1 = new Button(10, 100, width-20, 50, "Key of C Major/ A minor: C, d, e, F, G, a, b");
+    b1.draw();
+    b2 = new Button(10, 170, width-20, 50, "Key of D Major/ B minor: D, e, f#, G, A, b, c#");
+    b2.draw();      
+    b3 = new Button(10, 240, width-20, 50, "Key of G Major/ e minor: G, a, b, C, D, e, f#");
+    b3.draw();
+}
+
 
 /**Returns a new location that is unique 
 */
@@ -323,8 +300,8 @@ PVector getNewLoc(ArrayList<Note> arr, int arrSize){
 boolean isLocUsed(PVector randLoc, ArrayList<Note> tempArr, int tempSize){
   //check for randLoc
   for(int i = 0; i < tempSize; i++){
-    if(tempArr.get(i).pos == randLoc){
-      //retun true if location is used
+    if(dist(tempArr.get(i).pos.x, tempArr.get(i).pos.y, randLoc.x, randLoc.y) < (tempArr.get(i).rad * 2)){
+      //retun true if location would collide with a location that is already used
       return true;
     }
   }
