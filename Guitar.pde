@@ -1,12 +1,15 @@
 class Guitar{
-
+  PImage guitarImg;
   PVector startPos;
   PVector direction;
   int size = 85;
+  int sizeWid = 37;
+  int sizeHgt = 69;
   
   Guitar(PVector start){
     startPos = start;
     direction = new PVector(0,0);
+    guitarImg = loadImage("GuitarChordland.png");
   }
     
   void setStart(){
@@ -27,6 +30,8 @@ class Guitar{
   float getEndY(){
     return startPos.y + (size * direction.y);
   }
+  
+  
   
   void draw(){
     setStart();

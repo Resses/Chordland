@@ -72,7 +72,7 @@ void setup(){
 void draw(){
   switch(gameState) {
     case GAMEOVER:
-      background(#000000);
+      background(0);
       fill(240);
       textAlign(CENTER);
       textSize(32);
@@ -104,7 +104,7 @@ void draw(){
     
     case PLAY: 
       //gameplay
-      background(#ffffff);
+      background(#cce6ff);
       textSize(14);
       text("Correct: " + correct, 10, 40);
       text("Incorrect: " + incorrect, 10, 60);
