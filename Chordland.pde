@@ -18,6 +18,12 @@ NetAddress myRemoteLocation;
      // the type of powerup(reverb, delay, modulation)
      // pitch
 
+import ddf.minim.*;
+AudioPlayer songPlayer;
+Minim minim;
+ 
+  
+  
 PFont title;
 int x,y, weight;
 int gameState;
@@ -55,7 +61,6 @@ void setup(){
   incorrect = 0;
   shots = 0;
   winner = false;
-  //roundStats = 
   title = createFont("font",75,true);
   bullets = new ArrayList <Bullet> ();
   notes = new ArrayList <Note> ();
@@ -66,6 +71,9 @@ void setup(){
   chordsMastered = -1;
   //c = new Chord();//global chord variable, default constructor
   c = new Chord("C","E","G",MAJOR);
+  minim = new Minim(this);//instantiate song object
+  songPlayer = minim.loadFile("song.mp3");//create player
+  songPlayer.play();//play song
   
 }
 
