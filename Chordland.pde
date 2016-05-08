@@ -24,7 +24,7 @@ Minim minim;
  
   
   
-PFont title;
+PFont title, title1;
 int x,y, weight;
 int gameState;
 int rad = 24;
@@ -62,6 +62,7 @@ void setup(){
   shots = 0;
   winner = false;
   title = createFont("font",75,true);
+  title1 = createFont("ScorchedEarth.otf",70,true);
   bullets = new ArrayList <Bullet> ();
   notes = new ArrayList <Note> ();
   chordsLeft = new ArrayList<Integer>();
@@ -99,7 +100,7 @@ void draw(){
     case STARTSCREEN: 
     //title screen info
       textAlign(CENTER);
-      textFont(title);
+      textFont(title1);
       fill(255);
       text("CHORDLAND",width/2,height/2 - 20);
       textFont(title, 16);

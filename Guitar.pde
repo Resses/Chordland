@@ -49,7 +49,7 @@ class Guitar{
     rotate(angle);
     println("rotating " + degrees(angle));
     imageMode(CENTER);
-    image(guitarImg, 0,0, sizeWid, sizeHgt);
+    image(guitarImg, 0,0, 33,69);
     
   }
 }
