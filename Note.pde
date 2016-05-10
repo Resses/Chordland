@@ -1,44 +1,48 @@
 /**
   * Note.pde    
-  * Christopher Menedes, Kwan Holloway, Renee Esses
   * Game Design
   * Professor Kletenik
   */
 //import Sound;
 //import oscp5;
 
+float noteSpeed = 2;
+
 class Note {
     
   PVector pos;
   PVector vel; //speed 
-  //int d = 100;
   String note;
   float pitch;
   int max_x = 500, min_x = 0, max_y= 500, min_y = 0;
   int rad = 18; // radius
-  int xdirection = 1;  // Left or Right
-  int ydirection = 1;  // Top to Bottom
-  int xspeed = 3;
-  int yspeed = 3;
+  int midi;
+  float frequency;
+
   boolean switched = false;
   
   //constructor
-  Note(){
-    this.note = "placeholder";
-    this.pos = new PVector(30,30);
-    this.vel = new PVector(xspeed,yspeed);
-  }
-  //constructor
-  Note(String note){
+  //Note(){
+  //  this.note = "placeholder";
+  //  this.pos = new PVector(30,30);
+  //  this.vel = new PVector(noteSpeed,noteSpeed);
+  //}
+  ////constructor
+  //Note(String note){
+  //  this.note = note;
+  //  this.pos = getRandomLoc();
+  //  this.vel = new PVector(noteSpeed,noteSpeed);
+  //}
+  Note (String note){
     this.note = note;
-    this.pos = getRandomLoc();
-    this.vel = new PVector(xspeed,yspeed);
   }
   //constructor
   Note(String note, PVector posi){
     this.note = note;
     this.pos = posi;
-    this.vel = new PVector(xspeed,yspeed);
+    this.vel = new PVector(noteSpeed,noteSpeed);
+    this.midi =  noteToInt(note);
+    this.frequency = midiToFreq(midi);
   }
   void updatePos(){
   // Update the position of the shape
@@ -92,11 +96,14 @@ class Note {
  /* PVector getPos();//returns position of note
   PVector getDiameter();//returns diameter of note
   char getNote();
-  float getPitch();
-  void playSound();
-  void slowDown();
-  void doublePoints();
   */
+  //float getPitch();
+  void playSound(){
+    
+  }
+  //void slowDown();
+  //void doublePoints();
+  
   void draw(){
     noFill();
     ellipseMode(RADIUS);
@@ -107,36 +114,29 @@ class Note {
     text(note, pos.x, pos.y);
   }
 
-///**Returns a new location that is unique 
-//*/
-//PVector getNewLoc(PVector [] arr, int arrSize){
-//  PVector temp = getRandomLoc();
-//  //while it's not unique, try a new loc
-//  while(isLocUsed(temp,arr,arrSize)){
-//    temp = getRandomLoc();
-//  }
-//  //otheriwse return the unique location
-//  return temp;
-//}
-
-//// Checks to see if a location exists in the given collection
-//boolean isLocUsed(PVector randLoc, PVector [] tempArr, int tempSize){
-//  //check for randLoc
-//  for(int i = 0; i < tempSize; i++){
-//    if(tempArr[i] == randLoc){
-//      //retun true if location is used
-//      return true;
-//    }
-//  }
-//  //if location is unique
-//  return false;
-//}
-
-//PVector getRandomLoc() {
-//  return( new PVector(
-//  ((int)random(rad,(max_x+1-rad))/rad)*rad,
-//  ((int)random(rad,(max_y+1-125))/rad)*rad));
-//} // end of getRandomLoc()
-
-
+   int noteToInt(String n){
+     int note = C;
+     switch(n){
+       case "C": note = C; break;
+       case "D": note = D; break;
+       case "E": note = E; break;
+       case "F": note = F; break;
+       case "G": note = G; break;
+       case "A": note = A; break;
+       case "B": note = B; break;
+       case "F#": note = Fs; break;
+       case "Gb": note = Gb; break;
+       case "Db": note = Db; break;
+       case "C#": note = Cs; break;
+       case "Ab": note = Ab; break;
+       case "Eb": note = Eb; break;
+       case "Bb": note = Bb; break;
+     }
+     return note;
+   }
+  void playNote(){
+    sawOsc.play(frequency,0.9);
+  // levels we defined earlier
+    env.play(sawOsc, attackTime, sustainTime, sustainLevel, releaseTime);
+  }
 }

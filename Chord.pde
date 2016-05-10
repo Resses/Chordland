@@ -38,9 +38,18 @@ class Chord{
   
   void draw(){
    //String chordDisplay = printChord();
+   fill(COLOR);
    textSize(20);
    textAlign(LEFT, TOP);
    text(getChordString(), 10, 10);
 
+  }
+  void playChord(){
+    Note one = new Note(root);
+    Note three = new Note(third);
+    Note five = new Note(fifth);
+    one.playNote();
+    three.playNote();
+    five.playNote();
   }
 }

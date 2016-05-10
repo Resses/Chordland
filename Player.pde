@@ -64,7 +64,7 @@ class Player {
       setVelocity();
       updatePos();
       //draw
-      fill(#ff0000);
+      fill(COLOR);
 //      rect( pos.x, pos.y, sizeWid, sizeHgt );
       imageMode(CORNER);
       image(playerImg,pos.x,pos.y,37,69);
@@ -72,6 +72,3 @@ class Player {
     } // end of draw()
     
 }
-
-
-

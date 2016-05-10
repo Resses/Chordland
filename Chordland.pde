@@ -1,35 +1,15 @@
 /*
   Chordland main sketch
-  Authors: Christopher Menedes, Kwan Holloway, Renee Esses
+  
 */
 
 
-/*  MAX STUFF FOR SOUND  */
-
-// load the P5 libraries:
-import oscP5.*;
-import netP5.*;
-
-// create the objects we need for oscp5:
-OscP5 oscP5;
-NetAddress myRemoteLocation;
-
-// we want to send
-     // the type of powerup(reverb, delay, modulation)
-     // pitch
-
-import ddf.minim.*;
-AudioPlayer songPlayer;
-Minim minim;
- 
   
   
 PFont title, title1;
-int x,y, weight;
 int gameState;
 int rad = 24;
 int max_x = 500, min_x = 0, max_y= 500, min_y = 0;
-int correct, incorrect;
 String roundStats;
 
 //game states
@@ -49,17 +29,17 @@ Button b1, b2, b3;
 Chord c;
 boolean winner;
 
+int correct, incorrect;
+
+color[] chordColors = {#ff0000, #00ff00, #0000ff, #ff00ff, #000000, #FF8103, #13715B};
+color COLOR;
 void setup(){
   size(500,500);
-  //load font for score keeping
-  oscP5 = new OscP5(this,12000);//start oscP5
-  myRemoteLocation = new NetAddress("127.0.0.1",12000);
-  //Note chord [] = new Note();
   player = new Player();
   gameState = STARTSCREEN;
   correct = 0;
   incorrect = 0;
-  shots = 0;
+  shots = 25;
   winner = false;
   title = createFont("font",75,true);
   title1 = createFont("ScorchedEarth.otf",70,true);
@@ -70,12 +50,10 @@ void setup(){
     chordsLeft.add(i);
   }
   chordsMastered = -1;
-  //c = new Chord();//global chord variable, default constructor
   c = new Chord("C","E","G",MAJOR);
   minim = new Minim(this);//instantiate song object
   songPlayer = minim.loadFile("song.mp3");//create player
   songPlayer.play();//play song
-  
 }
 
 void draw(){
@@ -92,7 +70,6 @@ void draw(){
       text("Game Over", width/2, height/2);
       }
       textSize(16);
-//      text("You got " + correct + " correct and " + incorrect + " incorrect.", width/2, height/2 + 50);
       text("You've mastered " + chordsMastered + " chords and got " + incorrect + " incorrect." , width/2, height/2 + 50);
 
       break;
@@ -118,6 +95,9 @@ void draw(){
       text("Correct: " + correct, 10, 40);
       text("Incorrect: " + incorrect, 10, 60);
       text("Chords Mastered: " + chordsMastered, 10, 80);
+      text("Bullets Left: " + shots, 10, 100);
+      if(shots == 0 && bullets.size() == 0)
+        gameState = GAMEOVER;
 //      text("shots: " + shots, 10, 70);
       checkNoteCollide(); //checks for notes colliding with each other
       for(int i = 0; i < notes.size(); i++){
@@ -150,12 +130,6 @@ void draw(){
   }//end switch
 }//end draw
 
-
-void mouseDragged(){
-  x = mouseX;
-  y = mouseY;
-}
-
 void keyPressed(){
   if (key == CODED){
     if (keyCode == RIGHT){
@@ -176,6 +150,7 @@ void keyPressed(){
   //Start Game
   if(key == 'z' || key == 'Z'){
     gameState = CHOOSECHORDS;
+    resetVars();
   }
   // Quit Game
   if(key == 'q' || key == 'Q'){
@@ -199,6 +174,13 @@ void keyReleased(){
   if(key == 'a' || key == 'A'){
     player.moveLeft = false; 
   }
+  
+      if(key == ' '){
+        if(gameState == PLAY){
+    player.shoot();
+    shots--;
+      }
+  }  
 }//end key released 
   
 void mousePressed() {
@@ -221,13 +203,17 @@ void mousePressed() {
     }
   }
   else if(gameState == PLAY){
+    
     player.shoot();
-    shots++;
+    shots--;
+   
   }    
 }   
 
 void changeChord(){
   chordsMastered ++;
+  shots = 25;
+  noteSpeed += 0.2; 
   if(chordsLeft.size() <= 0 ){
     winner = true;
     gameState = GAMEOVER;
@@ -236,6 +222,8 @@ void changeChord(){
     k.fillNotes();
     Integer r = (int)random(chordsLeft.size());
     c = k.getChord(chordsLeft.get(r));
+    //c.playChord();
+    COLOR = chordColors[chordsLeft.get(r) - 1];
     println("Changing chord to " + chordsLeft.get(r) + ". Size is " + chordsLeft.size());
     chordsLeft.remove(chordsLeft.get(r));
     println("After removing, size is " + chordsLeft.size());
@@ -263,6 +251,7 @@ void checkBulletCollide(int i){
          //println("BULLET COLLISION");
          if(notes.get(k).note == c.root || notes.get(k).note == c.third || notes.get(k).note == c.fifth){
            correct++; 
+           notes.get(k).playNote();
            notes.remove(k);
          }
          else{
@@ -272,9 +261,6 @@ void checkBulletCollide(int i){
          bullets.remove(i);
          if(correct == 3){ //if you get three correct, the chord changes
            changeChord();
-         }
-         if(incorrect == 8){
-           gameState = GAMEOVER;
          }
          break;
        }
@@ -323,3 +309,27 @@ PVector getRandomLoc() {
   ((int)random(rad,(max_x+1-rad))/rad)*rad,
   ((int)random(rad,(max_y+1-125))/rad)*rad));
 } // end of getRandomLoc()
+
+
+int noteToMidi(Note tempNote) {
+    return int(tempNote.note);
+  //converts string to midi note, to be converted to frequency
+  
+}
+
+void resetVars(){
+  //delete all bullets
+  bullets.clear();
+  //for(int i = bullets.size() - 1; i >= 0; i--){
+  //  bullets.remove(i);    
+  //}
+  //zero out all scores
+  shots = 25;
+  incorrect = 0;
+  correct = 0;
+  chordsLeft.clear();
+  for(int i = 1; i < 8; i++){
+    chordsLeft.add(i);
+  }
+  chordsMastered = -1;
+}
