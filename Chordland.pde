@@ -18,7 +18,8 @@ final int STARTSCREEN = 0;
 final int PLAY = 1;
 final int CHOOSECHORDS = 2;
 final int TRANSITION = 3;
-final int EXPLANATION = 4;
+final int EXPLANATION1 = 4;
+final int EXPLANATION2 = 5;
 
 Player player; // player object
 ArrayList<Bullet> bullets;
@@ -28,7 +29,7 @@ Key k;
 ArrayList<Integer>chordsLeft; 
 int chordsMastered; // number of chords mastered
 Button b1, b2, b3; // buttons for the ossible chords to learn
-Button contButton; // button for continue in explanation screen
+Button contButton1, contButton2; // button for continue in explanation screen
 Chord c;
 boolean winner;
 int timer = 0;
@@ -131,9 +132,13 @@ void draw(){
      loadButtons();
      break;
   
-  case EXPLANATION:
+  case EXPLANATION1:
     background(#7597AD);
-    explainGame();
+    explainGame1();
+    break;
+   case EXPLANATION2:
+    background(#7597AD);
+    explainGame2();
     break;
   
   case TRANSITION:
@@ -166,7 +171,7 @@ void keyPressed(){
   }
   //Start Game
   if(key == 'z' || key == 'Z'){
-    gameState = EXPLANATION;
+    gameState = EXPLANATION1;
     resetVars();
   }
   // Quit Game
@@ -223,8 +228,13 @@ void mousePressed() {
     player.shoot();
     shots--;
   }   
-  else if (gameState == EXPLANATION){
-    if( contButton.rectOver){
+  else if (gameState == EXPLANATION1){
+    if( contButton1.rectOver){
+      gameState = EXPLANATION2; 
+    }
+  }
+  else if (gameState == EXPLANATION2){
+    if( contButton2.rectOver){
       gameState = CHOOSECHORDS; 
     }
   }
@@ -299,17 +309,27 @@ void loadButtons(){
     b3.draw();
 }
 
-void explainGame(){
+void explainGame1(){
     textAlign(CENTER);
-    textSize(12);
+    textSize(15);
     fill(0);
-    text("Welcome to Chordland!",width/2, 100);
-    text("Chordland will teach you the basics about chords in music.",width/2, 120);
-    text("Chords are groups of 3 or more musical notes that are in harmony.",width/2, 140);
-    text("Your goal is to shoot the correct notes, displayed in the upper left of the screen.",width/2, 160);
-    text("Doing so will play the chord! To begin, click the continue button below! Good Luck!",width/2, 180);
-    contButton = new Button(200, 220, 100, 50, "Continue...");
-    contButton.draw();
+    text("Welcome to Chordland!",width/2, 160);
+    text("Chordland will teach you the basics about chords in music.",width/2, 180);
+    text("Chords are groups of 3 or more musical notes that are in harmony.",width/2, 200);
+    contButton1 = new Button(200, 220, 100, 50, "Continue...");
+    contButton1.draw();
+}
+
+void explainGame2(){
+    textAlign(CENTER);
+    textSize(15);
+    fill(0);
+    text("Your goal is to shoot the correct notes!",width/2, 140);
+    text("Correct notes are displayed in the upper left of the screen.",width/2, 160);
+    text("Hitting correct notes will play the chord!",width/2, 180);
+    text("To begin, click the continue button below! Good Luck!",width/2, 200);
+    contButton2 = new Button(200, 220, 100, 50, "Continue...");
+    contButton2.draw();
 }
 
 /**Returns a new location that is unique 
