@@ -35,6 +35,8 @@ class Note {
   //}
   Note (String note){
     this.note = note;
+    this.midi =  noteToInt(note);
+    this.frequency = midiToFreq(midi);
   }
   //constructor
   Note(String note, PVector posi){
