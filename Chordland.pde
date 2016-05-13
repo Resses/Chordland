@@ -18,15 +18,17 @@ final int STARTSCREEN = 0;
 final int PLAY = 1;
 final int CHOOSECHORDS = 2;
 final int TRANSITION = 3;
+final int EXPLANATION = 4;
 
-Player player;
+Player player; // player object
 ArrayList<Bullet> bullets;
 ArrayList<Note> notes;
-int shots;
+int shots; // number of bullets left
 Key k;
 ArrayList<Integer>chordsLeft; 
-int chordsMastered;
-Button b1, b2, b3;
+int chordsMastered; // number of chords mastered
+Button b1, b2, b3; // buttons for the ossible chords to learn
+Button contButton; // button for continue in explanation screen
 Chord c;
 boolean winner;
 int timer = 0;
@@ -35,8 +37,8 @@ int correct, incorrect;
 
 color[] chordColors = {#ff0000, #8802D1, #0000ff, #ff00ff, #000000, #FF8103, #13715B};
 color COLOR;
-void setup(){
-  size(500,500);
+void setup(){ // initialize all objects and variables
+  size(500,500); // size of window
   player = new Player();
   gameState = STARTSCREEN;
   correct = 0;
@@ -129,6 +131,11 @@ void draw(){
      loadButtons();
      break;
   
+  case EXPLANATION:
+    background(#7597AD);
+    explainGame();
+    break;
+  
   case TRANSITION:
     background(#ffffff);
     fill(COLOR);
@@ -159,7 +166,7 @@ void keyPressed(){
   }
   //Start Game
   if(key == 'z' || key == 'Z'){
-    gameState = CHOOSECHORDS;
+    gameState = EXPLANATION;
     resetVars();
   }
   // Quit Game
@@ -213,11 +220,14 @@ void mousePressed() {
     }
   }
   else if(gameState == PLAY){
-    
     player.shoot();
     shots--;
-   
-  }    
+  }   
+  else if (gameState == EXPLANATION){
+    if( contButton.rectOver){
+      gameState = CHOOSECHORDS; 
+    }
+  }
 }   
 
 void changeChord(){
@@ -289,6 +299,18 @@ void loadButtons(){
     b3.draw();
 }
 
+void explainGame(){
+    textAlign(CENTER);
+    textSize(12);
+    fill(0);
+    text("Welcome to Chordland!",width/2, 100);
+    text("Chordland will teach you the basics about chords in music.",width/2, 120);
+    text("Chords are groups of 3 or more musical notes that are in harmony.",width/2, 140);
+    text("Your goal is to shoot the correct notes, displayed in the upper left of the screen.",width/2, 160);
+    text("Doing so will play the chord! To begin, click the continue button below! Good Luck!",width/2, 180);
+    contButton = new Button(200, 220, 100, 50, "Continue...");
+    contButton.draw();
+}
 
 /**Returns a new location that is unique 
 */
