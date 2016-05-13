@@ -11,8 +11,8 @@ class Player {
     PImage playerImg;  
     PVector pos; // position of player
     Guitar guitar;
-    int sizeWid = 37;
-    int sizeHgt = 69;
+    int sizeWid = 45;
+    int sizeHgt = 95;
     int speed = 5;
     int vel = 5;
     boolean moveLeft = false;
@@ -47,7 +47,7 @@ class Player {
     }
     
     float getCenterX(){
-      println(pos.x + "is posx");
+      //println(pos.x + "is posx");
       return pos.x + sizeWid/2;
     }
     
@@ -67,7 +67,7 @@ class Player {
       fill(COLOR);
 //      rect( pos.x, pos.y, sizeWid, sizeHgt );
       imageMode(CORNER);
-      image(playerImg,pos.x,pos.y,37,69);
+      image(playerImg,pos.x,pos.y,sizeWid, sizeHgt);
       guitar.draw();
     } // end of draw()
     
