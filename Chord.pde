@@ -48,8 +48,12 @@ class Chord{
     Note one = new Note(root);
     Note three = new Note(third);
     Note five = new Note(fifth);
+    println("playing");
     one.playNote();
+    delay(500);
     three.playNote();
+    delay(500);
     five.playNote();
+    //delay(500);
   }
 }
