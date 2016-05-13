@@ -17,6 +17,7 @@ final  int GAMEOVER = -1;
 final int STARTSCREEN = 0;
 final int PLAY = 1;
 final int CHOOSECHORDS = 2;
+final int TRANSITION = 3;
 
 Player player;
 ArrayList<Bullet> bullets;
@@ -28,10 +29,11 @@ int chordsMastered;
 Button b1, b2, b3;
 Chord c;
 boolean winner;
+int timer = 0;
 
 int correct, incorrect;
 
-color[] chordColors = {#ff0000, #00ff00, #0000ff, #ff00ff, #000000, #FF8103, #13715B};
+color[] chordColors = {#ff0000, #8802D1, #0000ff, #ff00ff, #000000, #FF8103, #13715B};
 color COLOR;
 void setup(){
   size(500,500);
@@ -106,7 +108,7 @@ void draw(){
         notes.get(i).draw(); 
       }  
       for(int i = bullets.size() - 1; i >= 0; i--){
-        println("There are " +  bullets.size() + " bullets");
+        //println("There are " +  bullets.size() + " bullets");
         if(bullets.get(i).inBounds()){
           bullets.get(i).draw();
           //check bullet collisions
@@ -127,6 +129,14 @@ void draw(){
      loadButtons();
      break;
   
+  case TRANSITION:
+    background(#ffffff);
+    fill(COLOR);
+    textAlign(CENTER, CENTER);
+    text(c.getChordString(),width/2,height/2);
+    timer ++;
+    if (timer == 90) c.playChord();
+    if (timer == 180) gameState = PLAY;
   }//end switch
 }//end draw
 
@@ -188,18 +198,18 @@ void mousePressed() {
     if (b1.rectOver) {
       k = new Key(C, MAJOR);
       changeChord();
-      gameState = PLAY;
+      //gameState = PLAY;
     }
     else if(b2.rectOver){
       k = new Key(D, MAJOR);
       changeChord(); 
-      gameState = PLAY;
+      //gameState = PLAY;
    
     }
     else if(b3.rectOver){
       k = new Key(G, MAJOR);
       changeChord();
-      gameState = PLAY;
+      //gameState = PLAY;
     }
   }
   else if(gameState == PLAY){
@@ -222,13 +232,14 @@ void changeChord(){
     k.fillNotes();
     Integer r = (int)random(chordsLeft.size());
     c = k.getChord(chordsLeft.get(r));
-    //c.playChord();
     COLOR = chordColors[chordsLeft.get(r) - 1];
-    println("Changing chord to " + chordsLeft.get(r) + ". Size is " + chordsLeft.size());
+    //println("Changing chord to " + chordsLeft.get(r) + ". Size is " + chordsLeft.size());
     chordsLeft.remove(chordsLeft.get(r));
-    println("After removing, size is " + chordsLeft.size());
+   // println("After removing, size is " + chordsLeft.size());
     correct = 0;
 //    incorrect = 0;
+    timer = 0;
+    gameState = TRANSITION;
   }
 }
 
@@ -320,9 +331,6 @@ int noteToMidi(Note tempNote) {
 void resetVars(){
   //delete all bullets
   bullets.clear();
-  //for(int i = bullets.size() - 1; i >= 0; i--){
-  //  bullets.remove(i);    
-  //}
   //zero out all scores
   shots = 25;
   incorrect = 0;
