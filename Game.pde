@@ -27,10 +27,11 @@ class Game{
   int state; //playing, choosing chords...
   int mode; //beginner or master
   
-  int wait = 60;
+  int wait = 5;
   int timeA;
   boolean delayFlag, reverbFlag = false;
   boolean powerupFlag = false;
+  boolean powerupUsed = false;
   ArrayList<Integer>chordsLeft; 
   int chordsMastered; // number of chords mastered
   Key k;
@@ -59,7 +60,7 @@ class Game{
     shots = 25;
     winner = false;
     loadPowerUp();
-    timeA = millis();  
+      
   }
   
   void loadStartScreen(){
@@ -202,6 +203,7 @@ class Game{
   }
   
   void changeChord(){
+    powerupUsed = false;
     chordsMastered ++;
     shots = 25;
     noteSpeed += 0.2; 
@@ -293,19 +295,22 @@ class Game{
             speed = 10;//increase bullet speed
             if(timeUp()){
               println("Time up");
-              speed = 5;
-              reverbFlag = !reverbFlag;
+              speed = 5; 
+              powerupFlag = false;
               
             }
         }
             //applyReverb(); }
          if(delayFlag) {
            println("delay activated");
-           noteSpeed = 1;
+     
+             noteSpeed--;
+           println("Notespeed: " + noteSpeed);
            if(timeUp()){
              println("Time up");
-           noteSpeed = 5;
-            delayFlag = !delayFlag;
+             noteSpeed++;
+             println("Notespeed timeup: " + noteSpeed);
+             powerupFlag = false;
            //applyDelay(); 
          }
        }

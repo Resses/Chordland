@@ -73,8 +73,10 @@ void keyPressed(){
   if(key == 'q' || key == 'Q'){
     g.state = GAMEOVER;
   }
-  if(key == 'p' || key == 'P') {
+  if((key == 'p' || key == 'P') && g.powerupUsed == false) {
+    g.powerupUsed = true;
     g.powerupFlag = true;
+    g.timeA = millis();
   }
 }//end key pressed 
    
