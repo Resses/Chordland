@@ -28,7 +28,7 @@ class Button{
     rect(pos.x, pos.y, w, h);
     textAlign(CENTER, CENTER);
     fill(#0000ff);
-    text(label, pos.x, pos.y, w, 50);
+    text(label, pos.x, pos.y, w, h);
   }
   
   void update(int x, int y) {
@@ -39,7 +39,6 @@ class Button{
       rectOver = false;
     }
   }
-
 
   
   boolean overRect(int x, int y, int width, int height)  {

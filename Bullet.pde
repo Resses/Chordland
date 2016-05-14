@@ -1,8 +1,9 @@
+  int speed = 5;
+
 class Bullet{
   // PVector used for the location of the bullet
   PVector pos, vel;
   int radius = 10;
-  int speed = 5;
   
   Bullet(float posX, float posY, float dirX, float dirY) {
     // println("Creating bullet");
@@ -20,7 +21,7 @@ class Bullet{
   
   //Returns whether or not a bullet and note collide
   boolean bulletCollide(Note note){
-    if(dist(pos.x,pos.y,note.pos.x,note.pos.y) < (radius+note.rad)){
+    if(dist(pos.x,pos.y,note.pos.x,note.pos.y) < (radius+ noteRadius)){
       return true;
     }
     return false;

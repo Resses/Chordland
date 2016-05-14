@@ -42,12 +42,12 @@ class Guitar{
     setStart();
     setDirection();
     strokeWeight(2);
-    println(startPos + " to " + getEndX() + ", " + getEndY() );
+   // println(startPos + " to " + getEndX() + ", " + getEndY() );
 //    println( startPos.x + ", " + startPos.y + " to "  + getEndX() ", " + getEndY());
 //    line( startPos.x, startPos.y, getEndX(), getEndY());
     translate(startPos.x, startPos.y);
     rotate(angle);
-    println("rotating " + degrees(angle));
+    //println("rotating " + degrees(angle));
     imageMode(CENTER);
     image(guitarImg, 0,0, 33,69);
     

@@ -3,10 +3,9 @@
   * Game Design
   * Professor Kletenik
   */
-//import Sound;
-//import oscp5;
 
 float noteSpeed = 2;
+int noteRadius = 18; // radius
 
 class Note {
     
@@ -15,24 +14,12 @@ class Note {
   String note;
   float pitch;
   int max_x = 500, min_x = 0, max_y= 500, min_y = 0;
-  int rad = 18; // radius
   int midi;
   float frequency;
 
   boolean switched = false;
   
   //constructor
-  //Note(){
-  //  this.note = "placeholder";
-  //  this.pos = new PVector(30,30);
-  //  this.vel = new PVector(noteSpeed,noteSpeed);
-  //}
-  ////constructor
-  //Note(String note){
-  //  this.note = note;
-  //  this.pos = getRandomLoc();
-  //  this.vel = new PVector(noteSpeed,noteSpeed);
-  //}
   Note (String note){
     this.note = note;
     this.midi =  noteToInt(note);
@@ -57,12 +44,12 @@ class Note {
   void collide(){
    // Test to see if the shape exceeds the boundaries of the screen
   // If it does, reverse its direction by multiplying by -1
-    if ((pos.x > width-rad && vel.x > 0)|| (pos.x < rad && vel.x <0)) {
+    if ((pos.x > width-noteRadius && vel.x > 0)|| (pos.x < noteRadius && vel.x <0)) {
       //xdirection *= -1;
       vel.x = -vel.x;
     }
     // 
-    if ((pos.y > height-130 && vel.y >0) || (pos.y < rad && vel.y <0) ) {
+    if ((pos.y > height-130 && vel.y >0) || (pos.y < noteRadius && vel.y <0) ) {
       //ydirection *= -1;
       vel.y = -vel.y;
     }
@@ -71,7 +58,7 @@ class Note {
   
   void noteCollide(Note scnd){
     //Tests to see if the notes collide
-    if(dist(pos.x,pos.y,scnd.pos.x,scnd.pos.y) < (rad*2)){
+    if(dist(pos.x,pos.y,scnd.pos.x,scnd.pos.y) < (noteRadius*2)){
 //      println("collided");
       if(!switched){
         vel.x = -vel.x;
@@ -110,7 +97,7 @@ class Note {
     noFill();
     ellipseMode(RADIUS);
     //updatePos();
-    ellipse(pos.x, pos.y, rad, rad);
+    ellipse(pos.x, pos.y, noteRadius, noteRadius);
     textAlign(CENTER,CENTER);
     textSize(24);
     text(note, pos.x, pos.y);
@@ -141,4 +128,10 @@ class Note {
   // levels we defined earlier
     env.play(sawOsc, attackTime, sustainTime, sustainLevel, releaseTime);
   }
+  
+  ////converts string to midi note, to be converted to frequency
+  //int noteToMidi(Note tempNote) {
+  //    return int(tempNote.note);  
+  //}
+
 }

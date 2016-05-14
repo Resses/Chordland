@@ -4,8 +4,6 @@
   * Game Design
   * Professor Kletenik
   */
-//import Sound;
-//import oscp5;
 
 class Player {
     PImage playerImg;  
@@ -64,8 +62,6 @@ class Player {
       setVelocity();
       updatePos();
       //draw
-      fill(COLOR);
-//      rect( pos.x, pos.y, sizeWid, sizeHgt );
       imageMode(CORNER);
       image(playerImg,pos.x,pos.y,sizeWid, sizeHgt);
       guitar.draw();

@@ -1,11 +1,15 @@
 //This class right now is made up of three strings to correspond to the notes in the chord, and an integer type
 //it has a method to print the chord
+
+color[] chordColors = {#ff0000, #8802D1, #0000ff, #ff00ff, #000000, #FF8103, #13715B};
+
 class Chord{
   int type;
   String root;
   String third;
   String fifth;
   //String seventh;
+  color COLOR;
    
    Chord(){
     this.root = "C";
@@ -33,7 +37,13 @@ class Chord{
   }
   
   String getChordString(){
-    return((root + " " + getTypeString(type) + " : " + root + " " + third + " "  + fifth));
+    fill(COLOR);
+    if(g.mode == MASTER){
+      return(root + " " + getTypeString(type));
+    }
+    else{
+      return((root + " " + getTypeString(type) + " : " + root + " " + third + " "  + fifth));
+    }
   }
   
   void draw(){
