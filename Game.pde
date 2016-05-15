@@ -74,7 +74,6 @@ class Game{
       text(" Aim guitar with mouse, and click to shoot at notes!", width/2, height/2 +40);
       text(" Press 'Q' to quit the game.", width/2, height/2 +60);
       text(" Press 'Z' to begin!", width/2, height/2 +80);
-      loadWinnerButtons();
   }
   
   void loadGameOverScreen(){
@@ -141,7 +140,7 @@ class Game{
   }
   
   void play(){
-      if(powerupFlag) g.powerUp();
+      if(powerupFlag) g.checkPowerupTimer();
       background(#cce6ff);
       textSize(14);
       fill(c.COLOR);
@@ -149,7 +148,7 @@ class Game{
       text("Incorrect: " + incorrect, 10, 60);
       text("Chords Mastered: " + chordsMastered, 10, 80);
       text("Bullets Left: " + shots, 10, 100);
-      text("Time elapsed: " + ((millis() - timeA) / 1000),10,120);
+      printPowerup();
       if(shots == 0 && bullets.size() == 0) g.state = GAMEOVER;
       checkNoteCollide(); //checks for notes colliding with each other
       for(int i = 0; i < notes.size(); i++){
@@ -174,6 +173,19 @@ class Game{
       player.draw();
   }
   
+  void printPowerup(){
+     if(!powerupUsed){
+       fill(#000000);
+       if(reverbFlag) text("Press p to activate reverb and speed up bullets", 3*width/5, 10, 200, 100);
+       if(delayFlag) text("Press p to activate delay and slow down notes", 3*width/5, 10, 200, 100);
+     }
+     if(powerupFlag){
+       fill(#000000);
+       if(reverbFlag) text("REVERB TIME: " + (wait - ((millis() - timeA) / 1000)), 3.5*width/5, 10, 200, 100);
+       if(delayFlag) text("DELAY TIME: " + (wait - ((millis() - timeA) / 1000)), 3.5*width/5, 10, 200, 100);
+     
+     }
+  }
   void loadWinnerButtons(){
     fill(#000000);
     textSize(18);
@@ -212,9 +224,9 @@ class Game{
       state = GAMEOVER;
     }
     else{
-      k.fillNotes();
       Integer r = (int)random(chordsLeft.size());
       c = k.getChord(chordsLeft.get(r));
+      k.fillNotes(r);
       c.COLOR = chordColors[chordsLeft.get(r) - 1];
       chordsLeft.remove(chordsLeft.get(r));
       correct = 0;
@@ -285,34 +297,33 @@ class Game{
   }
   
  boolean timeUp(){
-   println((millis() - timeA)/(1000));
     return ((millis() - timeA)/(1000)) > wait;
   }
   
-  void powerUp(){
+ void setPowerup(){
+    g.powerupUsed = true;
+    g.powerupFlag = true;
+    g.timeA = millis();
    if(reverbFlag){
-          println("reverb activated");
-            speed = 10;//increase bullet speed
-            if(timeUp()){
-              println("Time up");
-              speed = 5; 
-              powerupFlag = false;
-              
-            }
-        }
-            //applyReverb(); }
-         if(delayFlag) {
-           println("delay activated");
-     
-             noteSpeed--;
-           println("Notespeed: " + noteSpeed);
-           if(timeUp()){
-             println("Time up");
-             noteSpeed++;
-             println("Notespeed timeup: " + noteSpeed);
-             powerupFlag = false;
-           //applyDelay(); 
-         }
-       }
+     println("reverb activated");
+     speed*=2;//increase bullet speed
+   }
+   if(delayFlag) {
+     println("delay activated");
+     noteSpeed--;
+   }
+ }
+  
+ void checkPowerupTimer(){
+   if(timeUp()){
+     println("Time up");
+     if(reverbFlag) {
+       speed/=2;
+     }
+     if(delayFlag) {
+       noteSpeed++;
+     }
+     powerupFlag = false;
+   }
   }
 }

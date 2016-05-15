@@ -20,21 +20,27 @@ class Note {
   boolean switched = false;
   
   //constructor
-  Note (String note){
+  Note (String note, int numInScale){
     this.note = note;
     this.midi =  noteToInt(note);
+    checkOctave(numInScale);
     this.frequency = midiToFreq(midi);
   }
   //constructor
-  Note(String note, PVector posi){
+  Note(String note, PVector posi, int numInScale){
     this.note = note;
     this.pos = posi;
     this.vel = new PVector(noteSpeed,noteSpeed);
     this.midi =  noteToInt(note);
+    checkOctave(numInScale);
     this.frequency = midiToFreq(midi);
   }
   void updatePos(){
   // Update the position of the shape
+    if(vel.x < 0){vel.x = -noteSpeed;}
+    else{vel.x = noteSpeed;}
+    if(vel.y<0){vel.y = -noteSpeed;}
+    else{vel.y = noteSpeed;}
     pos.x = pos.x + ( vel.x  );
     pos.y = pos.y + ( vel.y );
   }
@@ -100,6 +106,7 @@ class Note {
     ellipse(pos.x, pos.y, noteRadius, noteRadius);
     textAlign(CENTER,CENTER);
     textSize(24);
+    fill(g.c.COLOR);
     text(note, pos.x, pos.y);
   }
 
@@ -127,6 +134,40 @@ class Note {
     sawOsc.play(frequency,0.9);
   // levels we defined earlier
     env.play(sawOsc, attackTime, sustainTime, sustainLevel, releaseTime);
+  }
+  
+  //void checkOctave(int noteInScale){
+  //  println("IN check octave");
+  //  if(noteInScale == 3){
+  //    //compare to first
+  //    if(midi < noteToInt(g.c.root)){
+  //      midi +=12;
+  //      println("changing midi");
+  //    }
+  //  }
+  //  if(noteInScale == 5){
+  //    //compare third to first
+  //    if(noteToInt(g.c.third) < noteToInt(g.c.root)){
+  //      midi +=12;
+  //      println("changing midi");
+  //    }
+  //  }
+  //}
+  
+  void checkOctave(int numInScale){
+    println("IN check octave");
+    if(numInScale == 3){
+      if(noteToInt(g.c.fifth) <= noteToInt(g.c.root)){
+        midi+=12;
+        println("changing midi");
+      }
+    }
+    if(numInScale == 5){
+      if(midi <= noteToInt(g.c.root)){
+        midi+=12;
+        println("changing midi");
+      }
+    }
   }
   
   ////converts string to midi note, to be converted to frequency

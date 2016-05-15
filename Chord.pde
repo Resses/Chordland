@@ -55,9 +55,9 @@ class Chord{
 
   }
   void playChord(){
-    Note one = new Note(root);
-    Note three = new Note(third);
-    Note five = new Note(fifth);
+    Note one = new Note(root, 1);
+    Note three = new Note(third, 3);
+    Note five = new Note(fifth, 5);
     println("playing");
     one.playNote();
     delay(500);

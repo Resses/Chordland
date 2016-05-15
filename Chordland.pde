@@ -74,9 +74,7 @@ void keyPressed(){
     g.state = GAMEOVER;
   }
   if((key == 'p' || key == 'P') && g.powerupUsed == false) {
-    g.powerupUsed = true;
-    g.powerupFlag = true;
-    g.timeA = millis();
+    g.setPowerup();
   }
 }//end key pressed 
    

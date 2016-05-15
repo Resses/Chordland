@@ -122,15 +122,26 @@ class Key{
       return new Chord(first, third, fifth, t);
    }
 
-   void fillNotes(){
+   void fillNotes(int r){
      notes.clear();
       for(int i = 0; i < scale.length; i ++){
-        if(i == 0){
-         notes.add(new Note(scale[i], getRandomLoc())); 
-        }
-        else{
-          notes.add(new Note(scale[i], getNewLoc(notes, notes.size())));
-        }
+        //if(i == 0){
+          
+        //   notes.add(new Note(scale[i], getRandomLoc())); 
+        //}
+        //else{
+          if(i+1 == r) 
+            notes.add(new Note(scale[i], getNewLoc(notes, notes.size()) , 1));
+          else if (i+1 == (r+2)%7 ) {
+            notes.add(new Note(scale[i], getNewLoc(notes, notes.size()) , 3));
+          }
+          else if (i+1 == (r+4)%7){
+            notes.add(new Note(scale[i], getNewLoc(notes, notes.size()) , 5));
+          }
+          else{
+            notes.add(new Note(scale[i], getNewLoc(notes, notes.size()) , 0));
+          }
+        //}
       } 
    }
 }
