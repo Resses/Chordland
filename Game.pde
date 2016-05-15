@@ -226,7 +226,7 @@ class Game{
     else{
       Integer r = (int)random(chordsLeft.size());
       c = k.getChord(chordsLeft.get(r));
-      k.fillNotes(r);
+      k.fillNotes(chordsLeft.get(r));
       c.COLOR = chordColors[chordsLeft.get(r) - 1];
       chordsLeft.remove(chordsLeft.get(r));
       correct = 0;

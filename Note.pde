@@ -20,19 +20,19 @@ class Note {
   boolean switched = false;
   
   //constructor
-  Note (String note, int numInScale){
+  Note (String note, int numInChord){
     this.note = note;
     this.midi =  noteToInt(note);
-    checkOctave(numInScale);
+    checkOctave(numInChord);
     this.frequency = midiToFreq(midi);
   }
   //constructor
-  Note(String note, PVector posi, int numInScale){
+  Note(String note, PVector posi, int numInChord){
     this.note = note;
     this.pos = posi;
     this.vel = new PVector(noteSpeed,noteSpeed);
     this.midi =  noteToInt(note);
-    checkOctave(numInScale);
+    checkOctave(numInChord);
     this.frequency = midiToFreq(midi);
   }
   void updatePos(){
@@ -136,39 +136,41 @@ class Note {
     env.play(sawOsc, attackTime, sustainTime, sustainLevel, releaseTime);
   }
   
-  //void checkOctave(int noteInScale){
-  //  println("IN check octave");
-  //  if(noteInScale == 3){
-  //    //compare to first
-  //    if(midi < noteToInt(g.c.root)){
-  //      midi +=12;
-  //      println("changing midi");
-  //    }
-  //  }
-  //  if(noteInScale == 5){
-  //    //compare third to first
-  //    if(noteToInt(g.c.third) < noteToInt(g.c.root)){
-  //      midi +=12;
-  //      println("changing midi");
-  //    }
-  //  }
-  //}
+  //thirds midi needs to be > firsts
+  //fifths midi needs to be > third
+  void checkOctave(int numInChord){
+    int thirdMidi = noteToInt(g.c.third);
+    int fifthMidi = noteToInt(g.c.fifth);
+    if(numInChord == 3 || numInChord == 5){
+      //compare third to first
+      if(thirdMidi < noteToInt(g.c.root)){
+        thirdMidi += 12;
+      }
+      if(fifthMidi < thirdMidi){
+        fifthMidi += 12;
+      }
+    }
+    if(numInChord == 3){
+      midi = thirdMidi;
+    }
+    if(numInChord == 5){
+      midi = fifthMidi;
+    }
+    
+  } 
   
-  void checkOctave(int numInScale){
-    println("IN check octave");
-    if(numInScale == 3){
-      if(noteToInt(g.c.fifth) <= noteToInt(g.c.root)){
-        midi+=12;
-        println("changing midi");
-      }
-    }
-    if(numInScale == 5){
-      if(midi <= noteToInt(g.c.root)){
-        midi+=12;
-        println("changing midi");
-      }
-    }
-  }
+  ////this method only works in c major right now.
+  //void checkOctave(int numInChord){
+  //  int numInScale = g.k.getNumInScale(note); 
+  // if(numInChord == 5 && numInScale < 5){
+  //    midi+=12;
+  //    println("This is the fifth. Changing midi.");
+  // }
+  // if(numInChord == 3 && numInScale < 3){
+  //    midi+=12;
+  //    println("This is the third. changing midi");
+  // }
+  //}
   
   ////converts string to midi note, to be converted to frequency
   //int noteToMidi(Note tempNote) {

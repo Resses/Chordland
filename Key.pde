@@ -11,7 +11,7 @@ final int G = 67;
 final int A = 69;
 final int B = 71;
 
-final int Cb = 7;
+final int Cb = 71;
 final int Fs  = 66; //using s instead of # because # causes errors
 final int Gb = 66;
 final int Db = 61;
@@ -62,10 +62,10 @@ class Key{
         String []b = {"B", "C#", "D#","E", "F#", "G#", "A#"};
         scale = b;
         break;
-      case Cb:
-        String []cb = {"Cb", "Db", "Eb", "Fb", "Gb", "Ab", "Bb"};
-        scale = cb;
-        break;      
+      //case Cb:
+      //  String []cb = {"Cb", "Db", "Eb", "Fb", "Gb", "Ab", "Bb"};
+      //  scale = cb;
+      //  break;      
       case Fs:
         String []fs = {"F#", "G#", "A#", "B", "C#", "D#", "E#"}; 
         scale = fs;  
@@ -101,8 +101,6 @@ class Key{
     }
   }
   
-  
-  
   //what number chord in the scale for a major key
   //accepts root = # between 1 and 7
   Chord getChord(int root){
@@ -122,26 +120,34 @@ class Key{
       return new Chord(first, third, fifth, t);
    }
 
+  //accepts num in scale for root of chord
    void fillNotes(int r){
      notes.clear();
+     // the last parameter helps with getting the right octave. 
+     //if were playing chord c major : c-e-g, c will be 1, e will be 3 and g will be 5
       for(int i = 0; i < scale.length; i ++){
-        //if(i == 0){
-          
-        //   notes.add(new Note(scale[i], getRandomLoc())); 
-        //}
-        //else{
           if(i+1 == r) 
-            notes.add(new Note(scale[i], getNewLoc(notes, notes.size()) , 1));
+           notes.add(new Note(scale[i], getNewLoc(notes, notes.size()) , 1));
           else if (i+1 == (r+2)%7 ) {
-            notes.add(new Note(scale[i], getNewLoc(notes, notes.size()) , 3));
+           notes.add(new Note(scale[i], getNewLoc(notes, notes.size()) , 3));
           }
           else if (i+1 == (r+4)%7){
-            notes.add(new Note(scale[i], getNewLoc(notes, notes.size()) , 5));
+           notes.add(new Note(scale[i], getNewLoc(notes, notes.size()) , 5));
           }
           else{
-            notes.add(new Note(scale[i], getNewLoc(notes, notes.size()) , 0));
+           notes.add(new Note(scale[i], getNewLoc(notes, notes.size()) , 0));
           }
-        //}
+        
       } 
    }
+   
+   //int getNumInScale(String note){
+   //  for(int i = 0; i < scale.length; i ++){
+   //    if(scale[i] == note){
+   //      return i+1;
+   //    }
+   //  }
+   //  println("Error: Note not in scale");
+   //  return 0;
+   //}
 }
