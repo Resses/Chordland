@@ -16,6 +16,7 @@ Move Mouse - Aim Guitar
 
 Click Mouse or Spacebar - Shoot Bullet
 
+## Credits
 
 The game was created by Renee Esses, Kwan Holloway and Chris Menedes using Processing.
 To run the code, you must be running Processing 3 or greater. You also must get the minim and sound libraries from processing.
