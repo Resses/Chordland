@@ -52,7 +52,6 @@ void draw(){
 }//end draw
 
 //left, right, a and d move the player
-//z starts the game
 //q quits the game
 //p activates power up
 void keyPressed(){
@@ -72,12 +71,12 @@ void keyPressed(){
   if(key == 'a' || key == 'A'){
     player.moveLeft = true; 
   }
-  //Start Game
-  if(key == 'z' || key == 'Z'){
-    g.state = EXPLANATION1;
-    g.mode = BEGINNER;
-    g.resetVars();
-  }
+  ////Start Game
+  //if(key == 'z' || key == 'Z'){
+  //  g.state = EXPLANATION1;
+  //  g.mode = BEGINNER;
+  //  g.resetVars();
+  //}
   // Quit Game
   if(key == 'q' || key == 'Q'){
     g.state = GAMEOVER;
@@ -165,6 +164,13 @@ void mousePressed() {
       g.mode = MASTER;
       g.resetVars();
       g.changeChord();
+    }
+  }
+  else if(g.state == STARTSCREEN){
+    if(start.rectOver){
+      g.state = EXPLANATION1;
+      g.mode = BEGINNER;
+      g.resetVars();
     }
   }
 }   

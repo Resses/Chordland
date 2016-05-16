@@ -18,7 +18,7 @@ class Button{
     label = txt;
   }
   
-  void draw(){//draws button
+  void draw(color c){//draws button
      update();
      //if the mouse is hovered over the rectangle, change its color
      if (rectOver) {
@@ -30,7 +30,7 @@ class Button{
     //draw button as rectangle with text centered
     rect(pos.x, pos.y, w, h, 7);
     textAlign(CENTER, CENTER);
-    fill(#0000ff);
+    fill(c);
     text(label, pos.x, pos.y, w, h);
   }
   

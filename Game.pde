@@ -19,6 +19,7 @@ Player player; // player object
 ArrayList<Bullet> bullets;  //arraylist of active bullets 
 ArrayList<Note> notes; //arraylist of the notes on the screen
 
+Button start;
 Button b1, b2, b3, b4; // buttons for the possible chords to learn
 Button contButton1, contButton2; // button for continue in explanation screen
 Button playAgainBtn, masterBtn; //buttons to play again 
@@ -64,7 +65,7 @@ class Game{
     winner = false;
     loadPowerUp(); //assigns random powerup for the game 
     //create buttons with default constructor to avoid null pointers
-    b1 = new Button(); b2 = new Button(); b3 = new Button(); b4 = new Button(); contButton1 = new Button(); contButton2 = new Button(); // button for continue in explanation screen
+    start = new Button(); b1 = new Button(); b2 = new Button(); b3 = new Button(); b4 = new Button(); contButton1 = new Button(); contButton2 = new Button(); // button for continue in explanation screen
     playAgainBtn = new Button(); 
     masterBtn = new Button(); 
   }
@@ -80,7 +81,9 @@ class Game{
       text("Use 'A' and 'D' or the left and right arrow keys to move player.", width/2, height/2 + 20);
       text(" Aim guitar with mouse, and click/use SPACE to shoot at notes!", width/2, height/2 +40);
       text(" Press 'Q' to quit the game.", width/2, height/2 +60);
-      text(" Press 'Z' to begin!", width/2, height/2 +80);
+      start = new Button(width/2 - 75, height-150 , 150, 50, "START");
+      start.draw(#000000);
+      //text(" Press 'Z' to begin!", width/2, height/2 +80);
   }
   
   void loadGameOverScreen(){
@@ -103,7 +106,7 @@ class Game{
         text("Game Over", width/2, height/2);
         textSize(16);
         playAgainBtn = new Button(width/2 - 75, height-150 , 150, 50, "Play again");
-        playAgainBtn.draw();
+        playAgainBtn.draw(#000000);
       }
       fill(240);
       textSize(16);
@@ -124,7 +127,7 @@ class Game{
     text("Chordland will teach you the basics about chords in music.",width/2, 180);
     text("Chords are groups of 3 or more musical notes that are in harmony.",width/2, 200);
     contButton1 = new Button(200, 220, 100, 50, "Continue...");
-    contButton1.draw();
+    contButton1.draw(#0000ff);
   }
   
   void explain2(){
@@ -137,7 +140,7 @@ class Game{
     text("Hitting correct notes will play the chord!",width/2, 180);
     text("To begin, click the continue button below! Good Luck!",width/2, 200);
     contButton2 = new Button(200, 220, 100, 50, "Continue...");
-    contButton2.draw();
+    contButton2.draw(#0000ff);
   }
   
   //this is for the transition between chords
@@ -228,8 +231,8 @@ class Game{
       playAgainBtn = new Button(width/6, height-150 , 150, 100, "Start over and choose new chords");
       masterBtn = new Button(width/6 + 160, height-150, 150, 100, "Play MASTER MODE again");
     }
-    playAgainBtn.draw();
-    masterBtn.draw();
+    playAgainBtn.draw(#0000ff);
+    masterBtn.draw(#0000ff);
   }
 
   //Loads buttons for chord set choices.
@@ -239,13 +242,13 @@ class Game{
     textSize(18);
     text("Which chords do you want to master now? ", width/2, 50);
     b1 = new Button(10, 100, width-20, 50, "Key of C Major/ A minor: C, d, e, F, G, a, b");
-    b1.draw();
+    b1.draw(#0000ff);
     b2 = new Button(10, 170, width-20, 50, "Key of D Major/ B minor: D, e, f#, G, A, b, c#");
-    b2.draw();      
+    b2.draw(#0000ff);      
     b3 = new Button(10, 240, width-20, 50, "Key of G Major/ e minor: G, a, b, C, D, e, f#");
-    b3.draw();
+    b3.draw(#0000ff);
     b4 = new Button(10, 310, width-20, 50, "Key of A Major/ f# minor: A, b, c#, D, E, f#, g#");
-    b4.draw();
+    b4.draw(#0000ff);
   }
   
   void changeChord(){
