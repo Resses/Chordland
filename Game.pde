@@ -64,14 +64,15 @@ class Game{
   }
   
   void loadStartScreen(){
+      background(100);
       textAlign(CENTER);
       textFont(title1);
-      fill(255);
+      fill(30);
       text("CHORDLAND",width/2,height/2 - 20);
       textFont(title, 16);
-      fill(0);
+      fill(200);
       text("Use 'A' and 'D' or the left and right arrow keys to move player.", width/2, height/2 + 20);
-      text(" Aim guitar with mouse, and click to shoot at notes!", width/2, height/2 +40);
+      text(" Aim guitar with mouse, and click/use SPACE to shoot at notes!", width/2, height/2 +40);
       text(" Press 'Q' to quit the game.", width/2, height/2 +60);
       text(" Press 'Z' to begin!", width/2, height/2 +80);
   }

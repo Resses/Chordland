@@ -12,8 +12,8 @@ class Bullet{
     //println(vel);
   }
   
-  void draw() { 
-    pos.x += vel.x;
+  void draw() { // Update position 
+    pos.x += vel.x; 
     pos.y += vel.y;
     fill(#ff0000);
     ellipse(pos.x, pos.y, radius,radius);

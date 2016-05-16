@@ -6,7 +6,8 @@ class Button{
   color rectHighlight = #ffffff;
   boolean rectOver = false;
 
-  
+  // Constructor
+  // takes x and y pos, width and height, and a text string
   Button(int x, int y, int w, int h, String txt){
     pos = new PVector(x, y); 
 //    pos.x = x;
@@ -17,7 +18,7 @@ class Button{
   }
   
   
-   void draw(){
+   void draw(){ // draws button
      update(mouseX, mouseY);
      if (rectOver) {
         fill(rectHighlight);
@@ -30,8 +31,8 @@ class Button{
     fill(#0000ff);
     text(label, pos.x, pos.y, w, h);
   }
-  
-  void update(int x, int y) {
+  // updates button state
+  void update(int x, int y) { 
    if (overRect((int)pos.x, (int)pos.y, w, h) ) {
       rectOver = true;
     } 
@@ -40,7 +41,7 @@ class Button{
     }
   }
 
-  
+  // checks if mouse is over button
   boolean overRect(int x, int y, int width, int height)  {
     if (mouseX >= x && mouseX <= x+width && 
         mouseY >= y && mouseY <= y+height) {

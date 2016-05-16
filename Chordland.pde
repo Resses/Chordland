@@ -1,6 +1,10 @@
 /*
-  Chordland main sketch
-  
+*  Chordland Main Sketch
+*  Version 1.0
+*  Game Design Final Project(SPR 2016)
+*
+*  Created by Chris Menedes, Renee Esess, and Kwan Holloway
+*
 */
 
 PFont title, title1;
@@ -73,6 +77,7 @@ void keyPressed(){
   if(key == 'q' || key == 'Q'){
     g.state = GAMEOVER;
   }
+  //Use Powerup
   if((key == 'p' || key == 'P') && g.powerupUsed == false) {
     g.setPowerup();
   }
@@ -103,40 +108,48 @@ void keyReleased(){
 }//end key released 
   
 void mousePressed() {
+  //Pick C Major
   if(g.state == CHOOSECHORDS){
     if (b1.rectOver) {
       g.k = new Key(C, MAJOR);
       g.changeChord();
     }
+    // Pick D Major
     else if(b2.rectOver){
       g.k = new Key(D, MAJOR);
       g.changeChord();    
     }
+    //Pick G Major
     else if(b3.rectOver){
       g.k = new Key(G, MAJOR);
       g.changeChord();
     }
   }
+  // Shoot Bullet
   else if(g.state == PLAY){
     player.shoot();
     g.shots--;
   }   
+  // Go to Explanation screen
   else if (g.state == EXPLANATION1){
     if( contButton1.rectOver){
       g.state = EXPLANATION2; 
     }
   }
+  // Go to Choose Chords Screen
   else if (g.state == EXPLANATION2){
     if( contButton2.rectOver){
       g.state = CHOOSECHORDS; 
     }
   }
+  // Show Game Over Screen
   else if (g.state == GAMEOVER){
     if( playAgainBtn.rectOver){
       g.mode = BEGINNER;
       g.state = CHOOSECHORDS;
       g.resetVars();
     }
+    // Show Master Mode
     else if( masterBtn.rectOver){
       g.mode = MASTER;
       g.resetVars();
@@ -171,6 +184,7 @@ boolean isLocUsed(PVector randLoc, ArrayList<Note> tempArr, int tempSize){
   return false;
 }
 
+// returns random location on in bounds of screen
 PVector getRandomLoc() {
   return( new PVector(
   ((int)random(noteRadius,(max_x+1-noteRadius))/noteRadius)*noteRadius,

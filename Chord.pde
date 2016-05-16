@@ -11,19 +11,22 @@ class Chord{
   //String seventh;
   color COLOR;
    
+   //Constructors
+   
    Chord(){
     this.root = "C";
     this.third = "E";
     this.fifth = "G";
     this.type = MAJOR;
    }
+   
   Chord(String root, String third, String fifth, int type){
    this.root = root;
    this.third = third;
    this.fifth = fifth;
    this.type = type;
   }
-  
+  // returns the type of chord it is
   String getTypeString(int t){
     switch(t){
       case DIMINISHED:
@@ -36,6 +39,7 @@ class Chord{
     }
   }
   
+  // gets a string representation of the chord
   String getChordString(){
     fill(COLOR);
     if(g.mode == MASTER){
@@ -46,6 +50,7 @@ class Chord{
     }
   }
   
+  // displays chord in upper left of screen
   void draw(){
    //String chordDisplay = printChord();
    fill(COLOR);
@@ -54,6 +59,7 @@ class Chord{
    text(getChordString(), 10, 10);
 
   }
+  // plays the chord befor ethe round
   void playChord(){
     Note one = new Note(root, 1);
     Note three = new Note(third, 3);
