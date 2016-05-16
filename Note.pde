@@ -155,17 +155,17 @@ class Note {
   } 
 
 //this play function is called during the changing chords 
- void playNote(boolean isDelay, boolean isReverb){
-    out.playNote(0, 1.0, new ToneInstrument(frequency, 0.9, isDelay, isReverb));
+ void playNote(boolean isDelay, boolean ispanning){
+    out.playNote(0, 1.0, new ToneInstrument(frequency, 0.9, isDelay, ispanning));
  }
  void playNote(){
     //playnote parameters are start time in seconds from now, duration, and instrument
-    //the instrument accepts frequency, amplitude, isDelay and isReverb
+    //the instrument accepts frequency, amplitude, isDelay and ispanning
     if(g.powerupFlag){
       if(g.delayFlag){
         out.playNote(0, 1.0, new ToneInstrument(frequency, 0.9, true, false));
       }
-      else if (g.reverbFlag){
+      else if (g.panningFlag){
         out.playNote(0, 1.0, new ToneInstrument(frequency, 0.9, false, true));
       }
     }

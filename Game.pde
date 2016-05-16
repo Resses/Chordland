@@ -12,7 +12,7 @@ final int BEGINNER = 1;
 final int MASTER = 2;
 
 final int DELAY = 0;
-final int REVERB = 1;
+final int PANNING = 1;
 
 //The following variables are global and not members of the game for convenience
 Player player; // player object
@@ -30,7 +30,7 @@ class Game{
   int wait = 10; //powerup time length 10 seconds
   
   int timeA; //time the powerup starts
-  boolean delayFlag, reverbFlag = false; //the powerup assigned at the beginning of the game will be true
+  boolean delayFlag, panningFlag = false; //the powerup assigned at the beginning of the game will be true
   boolean powerupFlag = false; // if the power up is active
   boolean powerupUsed = false; // if the power up was already used for this round
   ArrayList<Integer>chordsLeft; // used to assure each chord is given only once
@@ -178,12 +178,12 @@ class Game{
   void printPowerup(){
      if(!powerupUsed){
        fill(#000000);
-       if(reverbFlag) text("Press p to activate reverb and speed up bullets", 3*width/5, 10, 200, 100);
+       if(panningFlag) text("Press p to activate panning and speed up bullets", 3*width/5, 10, 200, 100);
        if(delayFlag) text("Press p to activate delay and slow down notes", 3*width/5, 10, 200, 100);
      }
      if(powerupFlag){
        fill(#000000);
-       if(reverbFlag) text("REVERB TIME: " + (wait - ((millis() - timeA) / 1000)), 3.5*width/5, 10, 200, 100);
+       if(panningFlag) text("PANNING TIME: " + (wait - ((millis() - timeA) / 1000)), 3.5*width/5, 10, 200, 100);
        if(delayFlag) text("DELAY TIME: " + (wait - ((millis() - timeA) / 1000)), 3.5*width/5, 10, 200, 100);
      
      }
@@ -324,9 +324,9 @@ class Game{
       println("DELAY LOADED");   
       delayFlag = true;
       break;
-    case REVERB:
-      println("REVERB LOADED");   
-      reverbFlag = true;
+    case PANNING:
+      println("PANNING LOADED");   
+      panningFlag = true;
       break;
    }
   }
@@ -339,17 +339,17 @@ class Game{
     g.powerupUsed = true;
     g.powerupFlag = true;
     g.timeA = millis();
-   if(reverbFlag){
-     println("reverb activated");
+   if(panningFlag){
+     println("Panning activated");
      speed*=2;//increase bullet speed
    }
    if(delayFlag) {
-     println("delay activated");
+     println("Delay activated");
      noteSpeed--;
    }
  }
  void undoPowerup(){
-     if(reverbFlag) {
+     if(panningFlag) {
        speed/=2;
      }
      if(delayFlag) {
