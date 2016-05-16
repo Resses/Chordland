@@ -59,11 +59,11 @@ class Chord{
     Note three = new Note(third, 3);
     Note five = new Note(fifth, 5);
     println("playing");
-    one.playNote();
+    one.playNote(g.delayFlag, g.reverbFlag);
     delay(500);
-    three.playNote();
+    three.playNote(g.delayFlag, g.reverbFlag);
     delay(500);
-    five.playNote();
+    five.playNote(g.delayFlag, g.reverbFlag);
     //delay(500);
   }
 }

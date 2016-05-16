@@ -130,11 +130,6 @@ class Note {
      }
      return note;
    }
-  void playNote(){
-    sawOsc.play(frequency,0.9);
-  // levels we defined earlier
-    env.play(sawOsc, attackTime, sustainTime, sustainLevel, releaseTime);
-  }
   
   //thirds midi needs to be > firsts
   //fifths midi needs to be > third
@@ -158,20 +153,36 @@ class Note {
     }
     
   } 
-  
-  ////this method only works in c major right now.
-  //void checkOctave(int numInChord){
-  //  int numInScale = g.k.getNumInScale(note); 
-  // if(numInChord == 5 && numInScale < 5){
-  //    midi+=12;
-  //    println("This is the fifth. Changing midi.");
-  // }
-  // if(numInChord == 3 && numInScale < 3){
-  //    midi+=12;
-  //    println("This is the third. changing midi");
-  // }
-  //}
-  
+
+//this play function is called during the changing chords 
+ void playNote(boolean isDelay, boolean isReverb){
+    out.playNote(0, 1.0, new ToneInstrument(frequency, 0.9, isDelay, isReverb));
+ }
+ void playNote(){
+    //playnote parameters are start time in seconds from now, duration, and instrument
+    //the instrument accepts frequency, amplitude, isDelay and isReverb
+    if(g.powerupFlag){
+      if(g.delayFlag){
+        out.playNote(0, 1.0, new ToneInstrument(frequency, 0.9, true, false));
+      }
+      else if (g.reverbFlag){
+        out.playNote(0, 1.0, new ToneInstrument(frequency, 0.9, false, true));
+      }
+    }
+    else{
+      //no power up
+      out.playNote(0, 0.3, new ToneInstrument(frequency, 0.9, false, false));
+    }
+    
+    //SOUND LIB
+    //sawOsc.play();
+    //env.play(sawOsc, attackTime, sustainTime, sustainLevel, releaseTime);
+    //sawOsc.freq(frequency);
+    //sawOsc.amp(0.9);
+    //sawOsc.pan(map(mouseX, 0, width, -1.0, 1.0));
+    //delay.process(sawOsc, 5);
+    //delay.time(0.5);
+  }
   ////converts string to midi note, to be converted to frequency
   //int noteToMidi(Note tempNote) {
   //    return int(tempNote.note);  
