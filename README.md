@@ -5,10 +5,15 @@ Chordland is a non-violent musical shooter game that is meant to be a fun way fo
 ##Instructions
 
 A - Move Left
+
 D - Move Right
+
 Q - Quit Game
+
 P - Use Powerup
+
 Move Mouse - Aim Guitar
+
 Click Mouse or Spacebar - Shoot Bullet
 
 
