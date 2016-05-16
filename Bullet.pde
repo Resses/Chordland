@@ -11,8 +11,9 @@ class Bullet{
     vel = new PVector(dirX * speed, dirY * speed);
   }
   
+
   void draw() { 
-    //update position based on velocity and draw the buller
+    //update position based on velocity and draw the bullet
     pos.x += vel.x;
     pos.y += vel.y;
     fill(#ff0000);

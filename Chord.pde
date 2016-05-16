@@ -11,7 +11,7 @@ class Chord{
   color COLOR;
   
    //default constructor creates c major
-  Chord(){
+   Chord(){
     this.root = "C";
     this.third = "E";
     this.fifth = "G";
@@ -25,8 +25,9 @@ class Chord{
    this.fifth = fifth;
    this.type = type;
   }
-  
+
   //returns string that corresponds to the final int of the type
+  // aka the type of chord it is
   String getTypeString(int t){
     switch(t){
       case DIMINISHED:
@@ -39,6 +40,7 @@ class Chord{
     }
   }
   
+  // gets a string representation of the chord
   //if in master mode, only returns the name of the chord
   //else, returns the name of the chord and the notes in it
   String getChordString(){
@@ -51,7 +53,7 @@ class Chord{
     }
   }
   
-  //draws the name of the chord on the top left 
+  // displays chord in upper left of screen
   void draw(){
    fill(COLOR);
    textSize(20);

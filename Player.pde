@@ -8,7 +8,7 @@
 class Player {
     PImage playerImg;  
     PVector pos; // position of player
-    Guitar guitar;
+    Guitar guitar; // guitar of the player
     int sizeWid = 45;
     int sizeHgt = 95;
     int speed = 5;
@@ -16,13 +16,15 @@ class Player {
     boolean moveLeft = false;
     boolean moveRight = false;
     
-    //constructor set player position to bottom center of screen, and creates a guitar at the bottom center of itself
+    //constructor set player position to bottom center of screen, 
+    // creates a guitar at the bottom center of itself
     Player(){
       pos = new PVector(width/2 - sizeWid, height -sizeHgt); 
       guitar = new Guitar(new PVector(getCenterX(), getCenterY()));  
       playerImg = loadImage("KazukiChordland.png");
     }
     
+    //Sets Velocity based on conditional statements
     void setVelocity(){
       //set velocity
       if(moveLeft && !moveRight){
@@ -36,7 +38,7 @@ class Player {
       }
     }
     
-    void updatePos(){
+    void updatePos(){ // updates the position of the player
       //move by velocity
       pos.x += vel;
       //clamp to screen boundary
@@ -44,16 +46,17 @@ class Player {
       pos.x = min(pos.x, width - sizeWid);
     }
     
-    float getCenterX(){
+    float getCenterX(){ // gets center x value of player
       //println(pos.x + "is posx");
       return pos.x + sizeWid/2;
     }
     
-    float getCenterY(){
+    float getCenterY(){ // gets center y value of player
       return pos.y + sizeHgt/2;
     }
 
-    void shoot(){
+    //shoots a bullet in the direction of the guitar
+    void shoot(){ 
       bullets.add(new Bullet(guitar.getEndX(), guitar.getEndY(), guitar.direction.x, guitar.direction.y));
     }
     

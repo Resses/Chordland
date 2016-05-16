@@ -6,18 +6,20 @@ class Guitar{
   int sizeHgt = 100; //'' '' use 100
   float angle;
   
+  // Constructor
   Guitar(PVector start){
     startPos = start;
     direction = new PVector(0,0);
     guitarImg = loadImage("guitar2.png");
   }
-    
-  void setStart(){
+   
+   // set starting position of guitar, which is middle of player 
+  void setStart(){ 
     startPos.x = player.getCenterX();
     startPos.y = player.getCenterY();
   }
-  
-  void setDirection(){
+  // set direction of guitar based on mouse position
+  void setDirection(){ 
     direction.x = mouseX;
     direction.y = mouseY;
     direction.sub(startPos);
@@ -28,23 +30,21 @@ class Guitar{
     }
 
   }
-
+  // gets end X pos
   float getEndX(){
     return startPos.x + ((sizeWid/2.) * direction.x);
   }
+  // gets end y Pos
   float getEndY(){
     return startPos.y + (sizeHgt/2. * direction.y);
   }
   
   
-  
+  // Draws guitar based on angle of mouse
   void draw(){
     setStart();
     setDirection();
     strokeWeight(2);
-   // println(startPos + " to " + getEndX() + ", " + getEndY() );
-//    println( startPos.x + ", " + startPos.y + " to "  + getEndX() ", " + getEndY());
-//    line( startPos.x, startPos.y, getEndX(), getEndY());
     translate(startPos.x, startPos.y);
     rotate(angle);
     //println("rotating " + degrees(angle));
