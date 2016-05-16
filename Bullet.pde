@@ -1,18 +1,18 @@
-  int speed = 5;
+//bullet speed is global for convenience to be accessed 
+int speed = 5;
 
 class Bullet{
-  // PVector used for the location of the bullet
+  // PVector used for the location of the bullet, and its velocity
   PVector pos, vel;
   int radius = 10;
   
   Bullet(float posX, float posY, float dirX, float dirY) {
-    // println("Creating bullet");
     pos = new PVector(posX, posY);
     vel = new PVector(dirX * speed, dirY * speed);
-    //println(vel);
   }
   
   void draw() { 
+    //update position based on velocity and draw the buller
     pos.x += vel.x;
     pos.y += vel.y;
     fill(#ff0000);
@@ -27,6 +27,7 @@ class Bullet{
     return false;
   }
 
+  //returns whether or not the bullet is still within the bounds of the screen
   boolean inBounds(){
     if(pos.x < 0 || pos.y < 0 || pos.x > width || pos.y > height){
       return false;

@@ -17,9 +17,10 @@ void setup(){ // initialize all objects and variables
   
   minim = new Minim(this);//instantiate song object
   songPlayer = minim.loadFile("song.mp3");//create player
-  songPlayer.play();//play song
+  songPlayer.loop();//play song
 }
 
+//depending on the state of the game, different things will be drawn
 void draw(){
   switch(g.state) {
     case GAMEOVER:
@@ -46,6 +47,10 @@ void draw(){
   }//end switch
 }//end draw
 
+//left, right, a and d move the player
+//z starts the game
+//q quits the game
+//p activates power up
 void keyPressed(){
   if (key == CODED){
     if (keyCode == RIGHT){
@@ -78,6 +83,8 @@ void keyPressed(){
   }
 }//end key pressed 
    
+ //stop movement when key is released
+ //space to shoot
 void keyReleased(){
   if (key == CODED){
     if (keyCode == RIGHT){
@@ -95,13 +102,14 @@ void keyReleased(){
   }
   
  if(key == ' '){
-    if(g.state == PLAY){
+    if(g.state == PLAY && g.shots>0){
       player.shoot();
       g.shots--;
     }
   }  
 }//end key released 
   
+//responds to buttons
 void mousePressed() {
   if(g.state == CHOOSECHORDS){
     if (b1.rectOver) {
@@ -116,8 +124,12 @@ void mousePressed() {
       g.k = new Key(G, MAJOR);
       g.changeChord();
     }
+    else if(b4.rectOver){
+      g.k = new Key(A, MAJOR);
+      g.changeChord();
+    }
   }
-  else if(g.state == PLAY){
+  else if(g.state == PLAY && g.shots > 0){
     player.shoot();
     g.shots--;
   }   
@@ -146,8 +158,7 @@ void mousePressed() {
 }   
 
 
-/**Returns a new location that is unique 
-*/
+//Returns a new location that is unique 
 PVector getNewLoc(ArrayList<Note> arr, int arrSize){
   PVector temp = getRandomLoc();
   //while it's not unique, try a new loc

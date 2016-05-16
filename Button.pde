@@ -6,32 +6,33 @@ class Button{
   color rectHighlight = #ffffff;
   boolean rectOver = false;
 
-  
+  Button(){}
+    
   Button(int x, int y, int w, int h, String txt){
-    pos = new PVector(x, y); 
-//    pos.x = x;
-//    pos.y = y;
+    pos = new PVector(x, y);
     this.w = w;
     this.h = h;
     label = txt;
   }
   
-  
-   void draw(){
-     update(mouseX, mouseY);
+  void draw(){
+     update();
+     //if the mouse is hovered over the rectangle, change its color
      if (rectOver) {
         fill(rectHighlight);
     } 
     else {
       fill(rectColor);
     }
-    rect(pos.x, pos.y, w, h);
+    //draw button as rectangle with text centered
+    rect(pos.x, pos.y, w, h, 7);
     textAlign(CENTER, CENTER);
     fill(#0000ff);
     text(label, pos.x, pos.y, w, h);
   }
   
-  void update(int x, int y) {
+  //sets value of rectover to true based on value of overRect
+  void update() {
    if (overRect((int)pos.x, (int)pos.y, w, h) ) {
       rectOver = true;
     } 
@@ -40,7 +41,7 @@ class Button{
     }
   }
 
-  
+  //returns true if mouse is inside the rectangle
   boolean overRect(int x, int y, int width, int height)  {
     if (mouseX >= x && mouseX <= x+width && 
         mouseY >= y && mouseY <= y+height) {

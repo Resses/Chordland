@@ -16,51 +16,57 @@ final int REVERB = 1;
 
 //The following variables are global and not members of the game for convenience
 Player player; // player object
-ArrayList<Bullet> bullets;
-ArrayList<Note> notes;
+ArrayList<Bullet> bullets;  //arraylist of active bullets 
+ArrayList<Note> notes; //arraylist of the notes on the screen
 
-Button b1, b2, b3; // buttons for the possible chords to learn
+Button b1, b2, b3, b4; // buttons for the possible chords to learn
 Button contButton1, contButton2; // button for continue in explanation screen
-Button playAgainBtn, masterBtn;
+Button playAgainBtn, masterBtn; //buttons to play again 
 
 class Game{
   int state; //playing, choosing chords...
   int mode; //beginner or master
   
-  int wait = 10;
-  int timeA;
-  boolean delayFlag, reverbFlag = false;
-  boolean powerupFlag = false;
-  boolean powerupUsed = false;
-  ArrayList<Integer>chordsLeft; 
-  int chordsMastered; // number of chords mastered
-  Key k;
-  Chord c;
+  int wait = 10; //powerup time length 10 seconds
   
-  int timer = 0;
-  int correct, incorrect;
+  int timeA; //time the powerup starts
+  boolean delayFlag, reverbFlag = false; //the powerup assigned at the beginning of the game will be true
+  boolean powerupFlag = false; // if the power up is active
+  boolean powerupUsed = false; // if the power up was already used for this round
+  ArrayList<Integer>chordsLeft; // used to assure each chord is given only once
+  int chordsMastered; // number of chords mastered
+  Key k; //the key that the player chooses to learn 
+  Chord c;   //The current chord to be played
+  
+  int timer = 0; //for transition screen
+  int correct, incorrect; //number of correct and incorrect notes
   int shots; // number of bullets left
   boolean winner;
 
-  
+  //constructor: game starts with start screen in beginner mode. All variables are initialized
   Game(){
-    state = STARTSCREEN;
+    state = STARTSCREEN; 
     mode = BEGINNER;
     player = new Player();
     bullets = new ArrayList <Bullet> ();
     notes = new ArrayList <Note> ();
+    //chordsleft start with numbers 1-7 which are all the possible roots that a chord can start with because there are 7 notes in the scale
+    //To get a random chord, the root is chosen from a member of chordsLeft, and then that member is deleted from the list
     chordsLeft = new ArrayList<Integer>();
     for(int i = 1; i < 8; i++){
       chordsLeft.add(i);
     }
-    chordsMastered = -1;
+    chordsMastered = -1; //this will become 0 when first chord is assigned, and incremented after each chord is mastered
     c = new Chord("C","E","G",MAJOR);
     correct = 0;
     incorrect = 0;
     shots = 25;
     winner = false;
-    loadPowerUp();
-      
+    loadPowerUp(); //assigns random powerup for the game 
+    //create buttons with default constructor to avoid null pointers
+    b1 = new Button(); b2 = new Button(); b3 = new Button(); b4 = new Button(); contButton1 = new Button(); contButton2 = new Button(); // button for continue in explanation screen
+    playAgainBtn = new Button(); 
+    masterBtn = new Button(); 
   }
   
   void loadStartScreen(){
@@ -94,7 +100,11 @@ class Game{
       }
       else{
         text("Game Over", width/2, height/2);
+        textSize(16);
+        playAgainBtn = new Button(width/2 - 75, height-150 , 150, 50, "Play again");
+        playAgainBtn.draw();
       }
+      fill(240);
       textSize(16);
       text("You've mastered " + chordsMastered + " chords and got " + incorrect + " incorrect." , width/2, height/2 + 50);
   }
@@ -129,6 +139,7 @@ class Game{
     contButton2.draw();
   }
   
+  //this is for the transition between chords
   void transition(){
     background(#ffffff);
     fill(c.COLOR);
@@ -139,40 +150,30 @@ class Game{
     if (timer == 180) state = PLAY;
   }
   
+  //when gamestate is play
   void play(){
-      if(powerupFlag) g.checkPowerupTimer();
+      if(powerupFlag) g.checkPowerupTimer(); //check to see if the powerup time is over
+      printStats();       //draw game stats
+      printPowerup();  //draw power up status
+      if(shots <= 0 && bullets.size() == 0) g.state = GAMEOVER; // if the player runs out of shots and all their bullets have exited the screen, game over
+      drawNotes();
+      drawBullets();
+      drawDivider();
+      player.draw();
+  }
+  
+  //prints on top left the number of notes hit correct, incorrect, num chords mastered and how many bullets are left
+  void printStats(){
       background(#cce6ff);
+      c.draw();//display the chord on the screen
       textSize(14);
       fill(c.COLOR);
       text("Correct: " + correct, 10, 40);
       text("Incorrect: " + incorrect, 10, 60);
       text("Chords Mastered: " + chordsMastered, 10, 80);
       text("Bullets Left: " + shots, 10, 100);
-      printPowerup();
-      if(shots == 0 && bullets.size() == 0) g.state = GAMEOVER;
-      checkNoteCollide(); //checks for notes colliding with each other
-      for(int i = 0; i < notes.size(); i++){
-        notes.get(i).collide(); //checks for notes colliding with the screen boundaries
-        notes.get(i).updatePos();
-        notes.get(i).draw(); 
-      }  
-      for(int i = bullets.size() - 1; i >= 0; i--){
-        //println("There are " +  bullets.size() + " bullets");
-        if(bullets.get(i).inBounds()){
-          bullets.get(i).draw();
-          //check bullet collisions
-          checkBulletCollide(i);
-        }
-        else{
-          bullets.remove(i); //remove bullet when out of bounds of screen
-        }  
-      }
-      c.draw();//lets us display the chord on the screen
-      fill(0);
-      rect(0, 385, 500, 10);
-      player.draw();
   }
-  
+ 
   void printPowerup(){
      if(!powerupUsed){
        fill(#000000);
@@ -185,6 +186,34 @@ class Game{
        if(delayFlag) text("DELAY TIME: " + (wait - ((millis() - timeA) / 1000)), 3.5*width/5, 10, 200, 100);
      
      }
+  }
+  
+  void drawNotes(){
+    checkNoteCollide(); //checks for notes colliding with each other
+    for(int i = 0; i < notes.size(); i++){
+        notes.get(i).collide(); //checks for notes colliding with the screen boundaries
+        notes.get(i).updatePos();
+        notes.get(i).draw(); 
+      }  
+  }
+  
+  void drawBullets(){
+    for(int i = bullets.size() - 1; i >= 0; i--){
+        //println("There are " +  bullets.size() + " bullets");
+        if(bullets.get(i).inBounds()){
+          bullets.get(i).draw();
+          //check bullet collisions
+          checkBulletCollide(i);
+        }
+        else{
+          bullets.remove(i); //remove bullet when out of bounds of screen
+        }  
+      }
+  }
+  
+  void drawDivider(){
+     fill(0);
+     rect(0, 385, 500, 10);
   }
   void loadWinnerButtons(){
     fill(#000000);
@@ -202,6 +231,8 @@ class Game{
     masterBtn.draw();
   }
 
+  //Loads buttons for chord set choices.
+  //more can be added for any key stored
   void loadChordButtons(){
     textAlign(CENTER);
     textSize(18);
@@ -212,6 +243,8 @@ class Game{
     b2.draw();      
     b3 = new Button(10, 240, width-20, 50, "Key of G Major/ e minor: G, a, b, C, D, e, f#");
     b3.draw();
+    b4 = new Button(10, 310, width-20, 50, "Key of A Major/ f# minor: A, b, c#, D, E, f#, g#");
+    b4.draw();
   }
   
   void changeChord(){
