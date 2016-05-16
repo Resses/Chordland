@@ -27,7 +27,7 @@ class Game{
   int state; //playing, choosing chords...
   int mode; //beginner or master
   
-  int wait = 5;
+  int wait = 10;
   int timeA;
   boolean delayFlag, reverbFlag = false;
   boolean powerupFlag = false;
@@ -216,6 +216,7 @@ class Game{
   
   void changeChord(){
     powerupUsed = false;
+    if(powerupFlag) undoPowerup();
     chordsMastered ++;
     shots = 25;
     noteSpeed += 0.2; 
@@ -313,10 +314,7 @@ class Game{
      noteSpeed--;
    }
  }
-  
- void checkPowerupTimer(){
-   if(timeUp()){
-     println("Time up");
+ void undoPowerup(){
      if(reverbFlag) {
        speed/=2;
      }
@@ -324,6 +322,12 @@ class Game{
        noteSpeed++;
      }
      powerupFlag = false;
+ }
+ 
+ void checkPowerupTimer(){
+   if(timeUp()){
+     println("time up");
+     undoPowerup();
    }
   }
 }
