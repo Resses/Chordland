@@ -16,7 +16,16 @@ Move Mouse - Aim Guitar
 
 Click Mouse or Spacebar - Shoot Bullet
 
+####Possible Updates(Summer 2016 and Beyond)
+
+• Add background image of a concert stage
+
+• Make bullets a bolt of lightning or some other kind of image
+
+• More playable characters
+
+
 ## Credits
 
 The game was created by Renee Esses, Kwan Holloway and Chris Menedes using Processing.
-To run the code, you must be running Processing 3 or greater. You also must get the minim and sound libraries from processing.
+To run the code, you must be running Processing 3 or greater. You also must get the Minim[http://code.compartmental.net/tools/minim/] and Sound libraries from processing.
