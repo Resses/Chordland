@@ -88,7 +88,7 @@ class Game{
       text("CHORDLAND",width/2,height/2 - 20);
       textFont(title, 16);
       fill(200);
-      
+      textSize(14);
       text("Chordland will teach you the basics about chords in music.",width/2, height/2 + 20);
       text("Chords are groups of 3 or more musical notes that are in harmony.",width/2, height/2 + 40);
       
