@@ -16,7 +16,7 @@ Move Mouse - Aim Guitar
 
 Click Mouse or Spacebar - Shoot Bullet
 
-###Possible Updates(Summer 2016 and Beyond)
+####Possible Updates(Summer 2016 and Beyond)
 
 • Add background image of a concert stage
 
