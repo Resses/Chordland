@@ -136,8 +136,8 @@ class Game{
     fill(0);
     text("Use 'A' and 'D' or the left and right arrow keys to move player.", width/2, 120);
     text(" Aim guitar with mouse, and click/use SPACE to shoot at notes!", width/2, 140);
-    text(" Press 'Q' to quit the game.", width/2, 160);
-    text("Hit 'P' to utilize a given power-up once per round.",width/2, 180);
+    text(" Use 'Q' to quit the game.", width/2, 160);
+    text("Use 'P' to utilize a given power-up once per round.",width/2, 180);
     text("To begin, click the continue button below! Good Luck!",width/2, 200);
     contButton2 = new Button(200, 220, 100, 50, "Continue...");
     contButton2.draw(#0000ff);
@@ -160,6 +160,7 @@ class Game{
     background(#ffffff);
     fill(c.COLOR);
     textAlign(CENTER, CENTER);
+    textSize(20);
     text(c.getChordString(),width/2,height/2);
     timer ++;
     if (timer == 90) c.playChord();
