@@ -1,8 +1,17 @@
+/*
+*  Key Class Sketch
+*  Version 1.0
+*  Game Design Final Project(SPR 2016)
+*
+*  Created by Chris Menedes, Renee Esess, and Kwan Holloway
+*
+*/
+
 //This class will accept an integer corresponding to the correct key, and integer corresponding to major and minor.
 //It will use these to get the notes in the scale
 //It has a method to return a chord in the scale
 
-//major keys
+//integers that represent one octave of midi values
 final int C = 60;
 final int D = 62;
 final int E = 64;
@@ -12,7 +21,7 @@ final int A = 69;
 final int B = 71;
 
 final int Cb = 71;
-final int Fs  = 66; //using s instead of # because # causes errors
+final int Fs = 66; 
 final int Gb = 66;
 final int Db = 61;
 final int Cs = 61;
@@ -29,12 +38,14 @@ class Key{
   int type;
   String []scale;  
   
+  //constructor
   Key(int k, int t){
     currentKey = k;
     type = t;
     getScale();
   }
     
+  //sets the key's scale with corresponding notes
   void getScale(){
     switch(currentKey){
       default:
@@ -61,23 +72,11 @@ class Key{
       case B:
         String []b = {"B", "C#", "D#","E", "F#", "G#", "A#"};
         scale = b;
-        break;
-      //case Cb:
-      //  String []cb = {"Cb", "Db", "Eb", "Fb", "Gb", "Ab", "Bb"};
-      //  scale = cb;
-      //  break;      
+        break;     
       case Fs:
         String []fs = {"F#", "G#", "A#", "B", "C#", "D#", "E#"}; 
         scale = fs;  
-        break;   
-      //case Gb:
-      //  String []gb = {"Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F"};
-      //  scale = gb;  
-      // break;     
-      //case Db:        
-      //  String []db = {"Db", "Eb", "F", "Gb", "Ab", "Bb", "C"};
-      //  scale = db;  
-      //  break;
+        break; 
       case Cs:
         String []cs = {"C#", "D#", "E#", "F#", "G#", "A#", "B#"};
         scale = cs;      
@@ -137,17 +136,6 @@ class Key{
           else{
            notes.add(new Note(scale[i], getNewLoc(notes, notes.size()) , 0));
           }
-        
       } 
    }
-   
-   //int getNumInScale(String note){
-   //  for(int i = 0; i < scale.length; i ++){
-   //    if(scale[i] == note){
-   //      return i+1;
-   //    }
-   //  }
-   //  println("Error: Note not in scale");
-   //  return 0;
-   //}
 }

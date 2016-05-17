@@ -1,11 +1,14 @@
-/**
-  * Note.pde    
-  * Game Design
-  * Professor Kletenik
-  */
+/*
+*  Note Class Sketch
+*  Version 1.0
+*  Game Design Final Project(SPR 2016)
+*
+*  Created by Chris Menedes, Renee Esess, and Kwan Holloway
+*
+*/
 
 float noteSpeed = 2;
-int noteRadius = 18; // radius
+int noteRadius = 18;
 
 class Note {
     
@@ -22,10 +25,11 @@ class Note {
   //constructor
   Note (String note, int numInChord){
     this.note = note;
-    this.midi =  noteToInt(note);
+    this.midi =  noteToInt(note);//converts note name to midi value
     checkOctave(numInChord);
-    this.frequency = midiToFreq(midi);
+    this.frequency = midiToFreq(midi);//converts midi value to frequency
   }
+  
   //constructor
   Note(String note, PVector posi, int numInChord){
     this.note = note;
@@ -35,37 +39,36 @@ class Note {
     checkOctave(numInChord);
     this.frequency = midiToFreq(midi);
   }
-  void updatePos(){
+  
   // Update the position of the shape
+  void updatePos(){ 
     if(vel.x < 0){vel.x = -noteSpeed;}
     else{vel.x = noteSpeed;}
     if(vel.y<0){vel.y = -noteSpeed;}
     else{vel.y = noteSpeed;}
-    pos.x = pos.x + ( vel.x  );
+    pos.x = pos.x + ( vel.x );
     pos.y = pos.y + ( vel.y );
   }
+  
+  //relocates notes when hit
   void relocate(){
     pos = getNewLoc(notes, notes.size());
   }
+  
+  // Test to see if the shape exceeds the boundaries of the screen
+  // If it does, reverse its direction by negating the velocity
   void collide(){
-   // Test to see if the shape exceeds the boundaries of the screen
-  // If it does, reverse its direction by multiplying by -1
     if ((pos.x > width-noteRadius && vel.x > 0)|| (pos.x < noteRadius && vel.x <0)) {
-      //xdirection *= -1;
       vel.x = -vel.x;
     }
-    // 
     if ((pos.y > height-130 && vel.y >0) || (pos.y < noteRadius && vel.y <0) ) {
-      //ydirection *= -1;
       vel.y = -vel.y;
     }
-
    }
   
-  void noteCollide(Note scnd){
-    //Tests to see if the notes collide
+  //Tests to see if the notes collide with other notes
+  void noteCollide(Note scnd){  
     if(dist(pos.x,pos.y,scnd.pos.x,scnd.pos.y) < (noteRadius*2)){
-//      println("collided");
       if(!switched){
         vel.x = -vel.x;
         vel.y = -vel.y;
@@ -76,41 +79,16 @@ class Note {
         scnd.vel.y = -scnd.vel.y;
         scnd.switched = true;
       }
-     /* xdirection *= -1;
-      ydirection *= -1;
-      scnd.xdirection *= -1;
-      scnd.ydirection *= -1; */
     }
   }
   
+  //return if they have the same position or not
   boolean isEqual(Note scnd){
-    //return if they have the same position or not
     return (pos.x == scnd.pos.x && pos.y == scnd.pos.y) ? true : false;
   }
   
- /* PVector getPos();//returns position of note
-  PVector getDiameter();//returns diameter of note
-  char getNote();
-  */
-  //float getPitch();
-  void playSound(){
-    
-  }
-  //void slowDown();
-  //void doublePoints();
-  
-  void draw(){
-    noFill();
-    ellipseMode(RADIUS);
-    //updatePos();
-    ellipse(pos.x, pos.y, noteRadius, noteRadius);
-    textAlign(CENTER,CENTER);
-    textSize(24);
-    fill(g.c.COLOR);
-    text(note, pos.x, pos.y);
-  }
-
-   int noteToInt(String n){
+  //converts note string to corresponding midi value
+  int noteToInt(String n){
      int note = C;
      switch(n){
        case "C": note = C; break;
@@ -150,13 +128,12 @@ class Note {
     }
     if(numInChord == 5){
       midi = fifthMidi;
-    }
-    
+    }   
   } 
 
-//this play function is called during the changing chords 
- void playNote(boolean isDelay, boolean ispanning){
-    out.playNote(0, 1.0, new ToneInstrument(frequency, 0.9, isDelay, ispanning));
+   //this play function is called during the changing chords 
+   void playNote(boolean isDelay, boolean isPanning){
+    out.playNote(0, 1.0, new ToneInstrument(frequency, 0.9, isDelay, isPanning));
  }
  void playNote(){
     //playnote parameters are start time in seconds from now, duration, and instrument
@@ -173,19 +150,15 @@ class Note {
       //no power up
       out.playNote(0, 0.3, new ToneInstrument(frequency, 0.9, false, false));
     }
-    
-    //SOUND LIB
-    //sawOsc.play();
-    //env.play(sawOsc, attackTime, sustainTime, sustainLevel, releaseTime);
-    //sawOsc.freq(frequency);
-    //sawOsc.amp(0.9);
-    //sawOsc.pan(map(mouseX, 0, width, -1.0, 1.0));
-    //delay.process(sawOsc, 5);
-    //delay.time(0.5);
   }
-  ////converts string to midi note, to be converted to frequency
-  //int noteToMidi(Note tempNote) {
-  //    return int(tempNote.note);  
-  //}
-
+  
+  void draw(){
+    noFill();
+    ellipseMode(RADIUS);
+    ellipse(pos.x, pos.y, noteRadius, noteRadius);
+    textAlign(CENTER,CENTER);
+    textSize(24);
+    fill(g.c.COLOR);
+    text(note, pos.x, pos.y);
+  }
 }

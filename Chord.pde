@@ -1,4 +1,12 @@
-//This class right now is made up of three strings to correspond to the notes in the chord, and an integer type
+/*
+*  Chord Class Sketch
+*  Version 1.0
+*  Game Design Final Project(SPR 2016)
+*
+*  Created by Chris Menedes, Renee Esess, and Kwan Holloway
+*
+*/
+//This class is made up of three strings to correspond to the notes in the chord, and an integer type
 //it has a method to print the chord, get the chord as a string with or without note names, and play the chord as an arpeggio
 
 color[] chordColors = {#ff0000, #8802D1, #0000ff, #ff00ff, #000000, #FF8103, #13715B};
@@ -10,7 +18,7 @@ class Chord{
   String fifth;
   color COLOR;
   
-   //default constructor creates c major
+   //default constructor creates C Major
    Chord(){
     this.root = "C";
     this.third = "E";
@@ -61,7 +69,7 @@ class Chord{
    text(getChordString(), 10, 10);
   }
   
-  //creates a note object for each note in the chord and plays them one at a time
+  //creates a note object for each note in the chord and plays them one at a time to simulate a natural arpeggiated chord
   void playChord(){
     Note one = new Note(root, 1);
     Note three = new Note(third, 3);

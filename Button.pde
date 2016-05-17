@@ -1,3 +1,12 @@
+/*
+*  Button Class Sketch
+*  Version 1.0
+*  Game Design Final Project(SPR 2016)
+*
+*  Created by Chris Menedes, Renee Esess, and Kwan Holloway
+*
+*/
+
 class Button{
   PVector pos;
   int w, h; //width and height

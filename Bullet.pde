@@ -1,3 +1,12 @@
+/*
+*  Bullet Class Sketch
+*  Version 1.0
+*  Game Design Final Project(SPR 2016)
+*
+*  Created by Chris Menedes, Renee Esess, and Kwan Holloway
+*
+*/
+
 //bullet speed is global for convenience to be accessed 
 int speed = 5;
 
@@ -6,12 +15,12 @@ class Bullet{
   PVector pos, vel;
   int radius = 10;
   
+  //Bullet Constructor
   Bullet(float posX, float posY, float dirX, float dirY) {
     pos = new PVector(posX, posY);
     vel = new PVector(dirX * speed, dirY * speed);
   }
   
-
   void draw() { 
     //update position based on velocity and draw the bullet
     pos.x += vel.x;

@@ -1,3 +1,12 @@
+/*
+*  Game Class Sketch
+*  Version 1.0
+*  Game Design Final Project(SPR 2016)
+*
+*  Created by Chris Menedes, Renee Esess, and Kwan Holloway
+*
+*/
+
 //game states
 final  int GAMEOVER = -1;
 final int STARTSCREEN = 0;
@@ -11,6 +20,7 @@ final int EXPLANATION2 = 5;
 final int BEGINNER = 1;
 final int MASTER = 2;
 
+//powerup states
 final int DELAY = 0;
 final int PANNING = 1;
 
@@ -78,9 +88,10 @@ class Game{
       text("CHORDLAND",width/2,height/2 - 20);
       textFont(title, 16);
       fill(200);
-      text("Use 'A' and 'D' or the left and right arrow keys to move player.", width/2, height/2 + 20);
-      text(" Aim guitar with mouse, and click/use SPACE to shoot at notes!", width/2, height/2 +40);
-      text(" Press 'Q' to quit the game.", width/2, height/2 +60);
+      
+      text("Chordland will teach you the basics about chords in music.",width/2, height/2 + 20);
+      text("Chords are groups of 3 or more musical notes that are in harmony.",width/2, height/2 + 40);
+      
       start = new Button(width/2 - 75, height-150 , 150, 50, "START");
       start.draw(#000000);
       //text(" Press 'Z' to begin!", width/2, height/2 +80);
@@ -117,30 +128,31 @@ class Game{
     background(#999999);
     loadChordButtons();
   }
-  
-  void explain1(){
-    background(#7597AD);
-    textAlign(CENTER);
-    textSize(15);
-    fill(0);
-    text("Welcome to Chordland!",width/2, 160);
-    text("Chordland will teach you the basics about chords in music.",width/2, 180);
-    text("Chords are groups of 3 or more musical notes that are in harmony.",width/2, 200);
-    contButton1 = new Button(200, 220, 100, 50, "Continue...");
-    contButton1.draw(#0000ff);
-  }
-  
+  //Instructions for second screen
   void explain2(){
     background(#7597AD);
     textAlign(CENTER);
     textSize(15);
     fill(0);
-    text("Your goal is to shoot the correct notes!",width/2, 140);
-    text("Correct notes are displayed in the upper left of the screen.",width/2, 160);
-    text("Hitting correct notes will play the chord!",width/2, 180);
+    text("Use 'A' and 'D' or the left and right arrow keys to move player.", width/2, 120);
+    text(" Aim guitar with mouse, and click/use SPACE to shoot at notes!", width/2, 140);
+    text(" Press 'Q' to quit the game.", width/2, 160);
+    text("Hit 'P' to utilize a given power-up once per round.",width/2, 180);
     text("To begin, click the continue button below! Good Luck!",width/2, 200);
     contButton2 = new Button(200, 220, 100, 50, "Continue...");
     contButton2.draw(#0000ff);
+  }
+  //Instructions for first screen
+  void explain1(){
+    background(#7597AD);
+    textAlign(CENTER);
+    textSize(15);
+    fill(0);
+    text("Your goal is to shoot the notes displayed", width/2, 140);
+    text("in the upper left corner of the screen.",width/2, 160);
+    text("Hitting a correct note will play its sound.",width/2, 180);  
+    contButton1 = new Button(200, 220, 100, 50, "Continue...");
+    contButton1.draw(#0000ff);
   }
   
   //this is for the transition between chords
@@ -251,30 +263,33 @@ class Game{
     b4.draw(#0000ff);
   }
   
+  //changes chord after player finishes round
   void changeChord(){
+    //reset variables
     powerupUsed = false;
     if(powerupFlag) undoPowerup();
     chordsMastered ++;
     shots = 25;
-    noteSpeed += 0.2; 
+    noteSpeed += 0.2;//increases note speed as game progresses 
     if(chordsLeft.size() <= 0 ){
       winner = true;
       state = GAMEOVER;
     }
     else{
-      Integer r = (int)random(chordsLeft.size());
-      c = k.getChord(chordsLeft.get(r));
-      k.fillNotes(chordsLeft.get(r));
-      c.COLOR = chordColors[chordsLeft.get(r) - 1];
-      chordsLeft.remove(chordsLeft.get(r));
+      Integer r = (int)random(chordsLeft.size());//random index into chordsLeft array
+      c = k.getChord(chordsLeft.get(r));//value of element in array represents chord in scale
+      k.fillNotes(chordsLeft.get(r));//creates note for each note in key
+      c.COLOR = chordColors[chordsLeft.get(r) - 1];//each chord has associated color
+      chordsLeft.remove(chordsLeft.get(r));//removes chord
+      //reset variables and transition to next state
       correct = 0;
       timer = 0;
       state = TRANSITION;
     }
   }
   
+  //check collision between all notes
   void checkNoteCollide(){
-    //check collision between all notes
     for(int i = 0; i < notes.size(); i++){
       for(int j = i+1; j < notes.size(); j++){
           notes.get(i).noteCollide(notes.get(j));
@@ -285,14 +300,17 @@ class Game{
     }
   }
   
+  //checks collision between bullets and notes
   void checkBulletCollide(int i){
     for(int k = 0; k < notes.size(); k++){
       if(bullets.get(i).bulletCollide(notes.get(k))) {
+        //if note is in chord, increment correct, play note, and remove note from screen
          if(notes.get(k).note == c.root || notes.get(k).note == c.third || notes.get(k).note == c.fifth){
            correct++; 
            notes.get(k).playNote();
            notes.remove(k);
          }
+         //if note is not in chord, increment incorrect, and relocate note on screen
          else{
            incorrect++;
             notes.get(k).relocate();
@@ -305,9 +323,10 @@ class Game{
        }
     }
   }
-  void resetVars(){
-    //delete all bullets
-    bullets.clear();
+  
+  //resets all variables when new game is started
+  void resetVars(){  
+    bullets.clear();//delete all bullets
     //zero out all scores
     shots = 25;
     incorrect = 0;
@@ -320,6 +339,8 @@ class Game{
     winner = false;
     noteSpeed = 2;
   }
+  
+  //randomly loads a delay or panning powerup
   void loadPowerUp(){
    int powerup = (int)random(0,2);
    switch(powerup){
@@ -334,33 +355,38 @@ class Game{
    }
   }
   
+  //checks if power-up time is finished
  boolean timeUp(){
     return ((millis() - timeA)/(1000)) > wait;
   }
   
+  //activates powerups
  void setPowerup(){
     g.powerupUsed = true;
     g.powerupFlag = true;
-    g.timeA = millis();
+    g.timeA = millis();//sets start time to current time on computer clock
    if(panningFlag){
      println("Panning activated");
      speed*=2;//increase bullet speed
    }
    if(delayFlag) {
      println("Delay activated");
-     noteSpeed--;
+     noteSpeed--;//slow notes down
    }
  }
+ 
+ //deactivates powerups
  void undoPowerup(){
      if(panningFlag) {
-       speed/=2;
+       speed/=2;//return to normal bullet speed
      }
      if(delayFlag) {
-       noteSpeed++;
+       noteSpeed++;//return to normal note speed
      }
      powerupFlag = false;
  }
  
+ //if time is up, powerup is deactivated
  void checkPowerupTimer(){
    if(timeUp()){
      println("time up");

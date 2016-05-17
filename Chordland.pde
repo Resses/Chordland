@@ -71,12 +71,6 @@ void keyPressed(){
   if(key == 'a' || key == 'A'){
     player.moveLeft = true; 
   }
-  ////Start Game
-  //if(key == 'z' || key == 'Z'){
-  //  g.state = EXPLANATION1;
-  //  g.mode = BEGINNER;
-  //  g.resetVars();
-  //}
   // Quit Game
   if(key == 'q' || key == 'Q'){
     g.state = GAMEOVER;
@@ -131,6 +125,7 @@ void mousePressed() {
       g.k = new Key(G, MAJOR);
       g.changeChord();
     }
+    //Pick A Major
     else if(b4.rectOver){
       g.k = new Key(A, MAJOR);
       g.changeChord();

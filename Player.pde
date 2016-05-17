@@ -1,14 +1,16 @@
-/**
-  * Player.pde    
-  * Christopher Menedes, Kwan Holloway, Renee Esses
-  * Game Design
-  * Professor Kletenik
-  */
+/*
+*  Player Class Sketch
+*  Version 1.0
+*  Game Design Final Project(SPR 2016)
+*
+*  Created by Chris Menedes, Renee Esess, and Kwan Holloway
+*
+*/
 
 class Player {
     PImage playerImg;  
-    PVector pos; // position of player
-    Guitar guitar; // guitar of the player
+    PVector pos; 
+    Guitar guitar;
     int sizeWid = 45;
     int sizeHgt = 95;
     int speed = 5;
@@ -26,7 +28,6 @@ class Player {
     
     //Sets Velocity based on conditional statements
     void setVelocity(){
-      //set velocity
       if(moveLeft && !moveRight){
         vel = -speed;
       }
@@ -38,7 +39,8 @@ class Player {
       }
     }
     
-    void updatePos(){ // updates the position of the player
+    //updates the position of the player
+    void updatePos(){ 
       //move by velocity
       pos.x += vel;
       //clamp to screen boundary
@@ -46,12 +48,14 @@ class Player {
       pos.x = min(pos.x, width - sizeWid);
     }
     
-    float getCenterX(){ // gets center x value of player
+    //gets center x value of player
+    float getCenterX(){ 
       //println(pos.x + "is posx");
       return pos.x + sizeWid/2;
     }
     
-    float getCenterY(){ // gets center y value of player
+    //gets center y value of player
+    float getCenterY(){ 
       return pos.y + sizeHgt/2;
     }
 
@@ -64,7 +68,6 @@ class Player {
     void draw() {
       setVelocity();
       updatePos();
-      //draw
       imageMode(CORNER);
       image(playerImg,pos.x,pos.y,sizeWid, sizeHgt);
       guitar.draw();
