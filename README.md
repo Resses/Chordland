@@ -16,6 +16,15 @@ Move Mouse - Aim Guitar
 
 Click Mouse or Spacebar - Shoot Bullet
 
+###Possible Updates(Summer 2016 and Beyond)
+
+• Add background image of a concert stage
+
+• Make bullets a bolt of lightning or some other kind of image
+
+• More playable characters
+
+
 ## Credits
 
 The game was created by Renee Esses, Kwan Holloway and Chris Menedes using Processing.
