@@ -28,7 +28,9 @@ Click Mouse or Spacebar - Shoot Bullet
 
 • In early stages have more than 1 of Each letter so player can get more chances to hear and learn them
 
-• Multiple difficulties(Beginner, Intermidiate, Mdvanced, Master
+• Multiple difficulties(Beginner, Intermediate, Advanced, Master)
+
+• Explain what all power ups do and tell player to look at upper right of screen
 
 • Have actual instrument sounds and allow player to choose them
 
